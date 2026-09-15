@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Resolves the actual Ignition roles attached to an authenticated request.
  *
- * <p>Used by {@code ExecutionHandlers#handleCreateSession} (C14 fix) to bind the
+ * <p>Used by {@code ExecutionHandlers#handleCreateSession} to bind the
  * security mode of an issued session token to the caller's <em>real</em> Ignition
  * role membership rather than to a self-asserted {@code client_id} field.
  *
@@ -36,7 +36,7 @@ import java.util.Set;
  * via {@link #getDefault()}; tests substitute their own instance via the
  * {@link ExecutionHandlers#setRoleResolverForTesting(RoleResolver)} hook.
  *
- * @since v3.13.0 (C14 — bind /auth/session token issuance to actual role)
+ * @since v3.13.0 (bind /auth/session token issuance to actual role)
  */
 class RoleResolver {
 
@@ -160,7 +160,7 @@ class RoleResolver {
      *
      * @param req the request context (must not be {@code null})
      * @throws SecurityException if the caller lacks the Administrator role
-     * @since v3.13.0 (C13 — Administrator role gate for Python execution)
+     * @since v3.13.0 (Administrator role gate for Python execution)
      */
     void requireAdministrator(RequestContext req) {
         if (!isAdministrator(req)) {
@@ -179,7 +179,7 @@ class RoleResolver {
      * script calling {@code system.python3.exec} grants no privilege it did
      * not already have. Python 3 scripting is therefore <b>allowed by
      * default</b>, matching Jython's own trust level — this reverses the
-     * C13 opt-in default.</p>
+     * previous opt-in default.</p>
      *
      * <p>A Gateway administrator who wants to disable {@code system.python3.*}
      * fleet-wide (e.g. to shrink the supply-chain surface, not because Jython
@@ -193,7 +193,7 @@ class RoleResolver {
      * {@link #isScriptingAllowed()} to bypass the property/env-var check.</p>
      *
      * @throws SecurityException if scripting access has been disabled by the administrator
-     * @since v4.3.0 (charter &sect;2, 2026-07-02 — flips the C13 opt-in default to opt-out)
+     * @since v4.3.0 (flips the previous opt-in default to opt-out)
      */
     void requireScriptingAllowed() {
         if (!isScriptingAllowed()) {

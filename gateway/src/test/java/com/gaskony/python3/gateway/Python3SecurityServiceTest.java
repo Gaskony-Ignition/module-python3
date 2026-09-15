@@ -122,7 +122,7 @@ class Python3SecurityServiceTest {
 
         RequestContext requestContext = createMockRequest(null, "Bearer " + wrongKey);
 
-        // C13: invalid Bearer falls through to legacy admin-key check, then
+        // Invalid Bearer falls through to legacy admin-key check, then
         // throws SecurityException (the "RESTRICTED fallback" was removed).
         assertThatThrownBy(() -> securityService.determineSecurityMode(requestContext))
             .isInstanceOf(SecurityException.class);
@@ -181,7 +181,7 @@ class Python3SecurityServiceTest {
         // Setup: Mock request with no authentication headers
         RequestContext requestContext = createMockRequest(null, null);
 
-        // C13: unauthenticated callers now throw SecurityException (the
+        // Unauthenticated callers now throw SecurityException (the
         // "fall through to RESTRICTED" branch was removed when the bypassable
         // sandbox was deleted).
         assertThatThrownBy(() -> securityService.determineSecurityMode(requestContext))
@@ -199,7 +199,7 @@ class Python3SecurityServiceTest {
         RequestContext requestContext = mock(RequestContext.class);
         when(requestContext.getRequest()).thenReturn(httpRequest);
 
-        // C13: empty headers = no auth = SecurityException (not RESTRICTED).
+        // Empty headers = no auth = SecurityException (not RESTRICTED).
         assertThatThrownBy(() -> securityService.determineSecurityMode(requestContext))
             .isInstanceOf(SecurityException.class);
     }
@@ -226,7 +226,7 @@ class Python3SecurityServiceTest {
 
     @Test
     void testGenerateApiToken_DesignerAdminMode() {
-        // C13: SecurityMode.RESTRICTED was removed; DESIGNER_ADMIN is the
+        // SecurityMode.RESTRICTED was removed; DESIGNER_ADMIN is the
         // remaining non-ADMIN mode and round-trips through token issuance the
         // same way.
         String token = securityService.generateApiToken(SecurityMode.DESIGNER_ADMIN, 3600);
@@ -376,7 +376,7 @@ class Python3SecurityServiceTest {
         RequestContext requestContext = mock(RequestContext.class);
         when(requestContext.getRequest()).thenReturn(httpRequest);
 
-        // C13: SecurityMode.RESTRICTED was removed; DESIGNER_ADMIN is the
+        // SecurityMode.RESTRICTED was removed; DESIGNER_ADMIN is the
         // remaining non-ADMIN mode and equally does not require HTTPS.
         assertThatNoException().isThrownBy(() ->
             securityService.enforceHttpsRequirement(SecurityMode.DESIGNER_ADMIN, requestContext)

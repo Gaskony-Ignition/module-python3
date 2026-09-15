@@ -29,7 +29,7 @@ import java.util.Map;
  * module-RPC channel ({@link Python3Rpc}, obtained via
  * {@link GatewayConnection#getRpcInterface}), which travels over the Designer's
  * existing authenticated Gateway connection. The cold-HTTP REST plumbing this
- * class used prior to v4.2.0 could not authenticate after the C13/C14 hardening
+ * class used prior to v4.2.0 could not authenticate after security hardening
  * and has been fully removed along with the Designer-only write surfaces
  * (package management, Python version install/uninstall, shell execution, pool
  * resize) that the project charter reserves for the Gateway web UI.</p>
@@ -48,7 +48,7 @@ public class Python3RestClient {
 
     // v4.2.0: authenticated Designer -> Gateway transport. Module RPC travels over the
     // Designer's existing authenticated Gateway channel, so it works where the cold-HTTP
-    // REST client cannot (the C13/C14 hardening left the REST client with no way to
+    // REST client cannot (security hardening left the REST client with no way to
     // authenticate). All methods on this class are routed through this proxy.
     private volatile Python3Rpc rpc;
 
@@ -706,8 +706,7 @@ public class Python3RestClient {
 
     // =========================================================================
     // Python Distribution Management (v3.1.0) — read-only in the Designer
-    // (write/manage operations moved to the Gateway web UI in v4.3.0, §3 of
-    // the project charter)
+    // (write/manage operations moved to the Gateway web UI in v4.3.0)
     // =========================================================================
 
     /**
@@ -738,7 +737,7 @@ public class Python3RestClient {
     /**
      * Gets all available Python distributions with their install status (v3.1.0).
      * Read-only: the Designer only displays what versions/packages the admin has
-     * provided (§3 of the project charter); installing/uninstalling distributions
+     * provided; installing/uninstalling distributions
      * is a Gateway web UI (Administrator) function.
      *
      * @return list of distribution info objects
@@ -778,9 +777,8 @@ public class Python3RestClient {
     }
 
     // =========================================================================
-    // Package catalog (v4.3.0) — read-only environment view (§3 of the project
-    // charter: "Environment visibility ... Designer read-only"; installing or
-    // removing packages remains a Gateway web UI / Administrator function).
+    // Package catalog (v4.3.0) — read-only environment view; installing or
+    // removing packages remains a Gateway web UI / Administrator function.
     // =========================================================================
 
     /**

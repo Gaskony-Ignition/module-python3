@@ -12,7 +12,7 @@ import java.util.Objects;
  * @param timestamp The time the execution occurred
  * @param user The username who executed the code (null if unauthenticated)
  * @param sourceIP The source IP address (null if local)
- * @param securityMode The security mode used (DESIGNER_ADMIN or ADMIN; legacy RESTRICTED removed in C13)
+ * @param securityMode The security mode used (DESIGNER_ADMIN or ADMIN; legacy RESTRICTED removed)
  * @param codeHash SHA-256 hash of the executed code
  * @param success Whether the execution succeeded
  * @param durationMs Execution duration in milliseconds

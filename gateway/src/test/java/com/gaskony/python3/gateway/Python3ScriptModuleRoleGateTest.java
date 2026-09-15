@@ -29,8 +29,8 @@ import static org.mockito.Mockito.when;
  *
  * <p>Each {@code system.python3.*} entry-point that runs Python source must
  * call {@link RoleResolver#requireScriptingAllowed()} before reaching the
- * process pool. Per charter &sect;2 (2026-07-02), scripting is
- * <b>allowed by default</b> (opt-out) — this reverses the old C13 opt-in
+ * process pool. Scripting is
+ * <b>allowed by default</b> (opt-out) — this reverses the old opt-in
  * default. These tests verify that:</p>
  * <ul>
  *   <li>a caller is rejected with the expected error message when the
@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
  *       binding surface.</li>
  * </ul>
  *
- * @since v3.13.0 (C13); semantics flipped to opt-out in v4.3.0
+ * @since v3.13.0; semantics flipped to opt-out in v4.3.0
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -216,7 +216,7 @@ class Python3ScriptModuleRoleGateTest {
 
     @Test
     void defaultResolver_noPropertyNoEnv_allowsScripting() throws Exception {
-        // Charter §2 (2026-07-02): scripting is allowed BY DEFAULT (opt-out).
+        // Scripting is allowed BY DEFAULT (opt-out).
         // No override → RoleResolver.getDefault() reads the property/env var;
         // with neither set, scripting access must be allowed.
         String prop = "ignition.python3.scriptingFunctions.allowed";
@@ -297,7 +297,7 @@ class Python3ScriptModuleRoleGateTest {
 
     @Test
     void restrictedEnumValueIsRemoved() {
-        // C13: SecurityMode.RESTRICTED is gone. We verify by walking the enum.
+        // SecurityMode.RESTRICTED is gone. We verify by walking the enum.
         boolean hasRestricted = false;
         for (SecurityMode m : SecurityMode.values()) {
             if ("RESTRICTED".equals(m.name())) {

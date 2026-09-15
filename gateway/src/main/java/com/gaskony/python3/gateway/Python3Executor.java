@@ -87,7 +87,7 @@ public class Python3Executor {
      * <p>v4.1.0: dropped the {@code (resourceLimits, inputValidator, auditLogger)} overload.
      * Input validation never ran on the live path and the {@code InputValidator} sandbox was
      * removed (it blocked legitimate code; OS isolation + the Java-side role gate are the real
-     * boundary — see {@code docs/architecture/ARCHITECTURE.md} §7). Audit logging now happens at
+     * boundary — see {@code docs/architecture/ARCHITECTURE.md}). Audit logging now happens at
      * the REST/scripting entry points via {@code Python3AuditLogger}.
      *
      * @param pythonPath Path to Python 3 executable
@@ -247,7 +247,7 @@ public class Python3Executor {
      *
      * <p>The {@code securityMode} value is recorded in audit logs only — the python_bridge
      * subprocess ignores it (access control is enforced Java-side; see
-     * {@code docs/architecture/ARCHITECTURE.md} §7).</p>
+     * {@code docs/architecture/ARCHITECTURE.md}).</p>
      *
      * @param code         Python code to execute
      * @param variables    Variables to pass to Python

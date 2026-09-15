@@ -25,7 +25,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      * compatibility with existing audit-log expectations. Real access control
      * happens via {@link #roleResolver} before this constant is ever read.
      *
-     * @since v3.13.0 (C13)
+     * @since v3.13.0
      */
     private static final String DEFAULT_SECURITY_MODE = SecurityMode.DESIGNER_ADMIN.getValue();
 
@@ -35,7 +35,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      * applies to every instance; the default delegates to
      * {@link RoleResolver#getDefault()}.
      *
-     * @since v3.13.0 (C13)
+     * @since v3.13.0
      */
     private static volatile RoleResolver roleResolver = RoleResolver.getDefault();
 
@@ -64,7 +64,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      * <p>Allow-by-default per charter &sect;2 (2026-07-02); see
      * {@link RoleResolver#requireScriptingAllowed()}.</p>
      *
-     * @since v3.13.0 (C13); semantics flipped to opt-out in v4.3.0
+     * @since v3.13.0; semantics flipped to opt-out in v4.3.0
      */
     private void requireAdministrator(String binding) {
         try {
@@ -184,7 +184,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      *
      * @param code          Python code to execute
      * @param variables     Dictionary of variables to pass to Python
-     * @param securityMode  Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN; see C13)
+     * @param securityMode  Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN)
      * @param pythonVersion Python version to use (e.g., "3.11"), null for default
      * @return Result of execution
      */
@@ -197,11 +197,11 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      *
      * @param code         Python code to execute
      * @param variables    Dictionary of variables to pass to Python
-     * @param securityMode Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN; see C13)
+     * @param securityMode Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN)
      * @return Result of execution
      */
     public Object exec(String code, Map<String, Object> variables, String securityMode) throws Exception {
-        // C13: runtime scripting opt-out gate at the Jython entry-point (allow-by-default since v4.3.0).
+        // Runtime scripting opt-out gate at the Jython entry-point (allow-by-default since v4.3.0).
         requireAdministrator("exec");
         return execCore(code, variables, securityMode);
     }
@@ -293,7 +293,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      */
     private Object execWithVersion(String code, Map<String, Object> variables,
                                    String securityMode, String pythonVersion) throws Exception {
-        // C13: role gate (mirrors public exec(); private callers can only reach
+        // Role gate (mirrors public exec(); private callers can only reach
         // here via the public overload, but the duplicate gate is defence-in-depth).
         requireAdministrator("exec");
         return execCoreVersioned(code, variables, securityMode, pythonVersion);
@@ -418,7 +418,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      *
      * @param expression    Python expression to evaluate
      * @param variables     Dictionary of variables to pass to Python
-     * @param securityMode  Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN; see C13)
+     * @param securityMode  Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN)
      * @param pythonVersion Python version to use (e.g., "3.11"), null for default
      * @return Result of expression
      */
@@ -431,11 +431,11 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      *
      * @param expression   Python expression to evaluate
      * @param variables    Dictionary of variables to pass to Python
-     * @param securityMode Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN; see C13)
+     * @param securityMode Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN)
      * @return Result of expression
      */
     public Object eval(String expression, Map<String, Object> variables, String securityMode) throws Exception {
-        // C13: runtime scripting opt-out gate at the Jython entry-point (allow-by-default since v4.3.0).
+        // Runtime scripting opt-out gate at the Jython entry-point (allow-by-default since v4.3.0).
         requireAdministrator("eval");
         return evalCore(expression, variables, securityMode);
     }
@@ -525,7 +525,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      */
     private Object evalWithVersion(String expression, Map<String, Object> variables,
                                    String securityMode, String pythonVersion) throws Exception {
-        // C13: role gate (defence-in-depth alongside the public eval() gate).
+        // Role gate (defence-in-depth alongside the public eval() gate).
         requireAdministrator("eval");
         return evalCoreVersioned(expression, variables, securityMode, pythonVersion);
     }
@@ -654,11 +654,11 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      * @param functionName Function name (e.g., "sqrt")
      * @param args         List of positional arguments
      * @param kwargs       Dictionary of keyword arguments
-     * @param securityMode Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN; see C13)
+     * @param securityMode Security mode: "DESIGNER_ADMIN" or "ADMIN" (legacy "RESTRICTED" maps to DESIGNER_ADMIN)
      * @return Result of function call
      */
     public Object callModule(String moduleName, String functionName, List<Object> args, Map<String, Object> kwargs, String securityMode) {
-        // C13: Administrator role gate at the Jython entry-point.
+        // Administrator role gate at the Jython entry-point.
         requireAdministrator("callModule");
 
         logger.debug("callModule() called: {}.{}(), security mode: {}", moduleName, functionName, securityMode);
@@ -698,7 +698,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
         }
     }
 
-    // execShell() / escapeForPython() were removed in this fix-pass (security finding C16).
+    // execShell() / escapeForPython() were removed in this fix-pass.
     //
     // Rationale: the previous implementation interpolated a user-supplied command
     // string into Python source code and executed it with `subprocess.run(<cmd>,
@@ -710,8 +710,6 @@ public class Python3ScriptModule implements Python3RpcFunctions {
     // The corresponding Python feature was already removed from python_bridge.py
     // (v2.9.0). Removing the Java entry-point closes the Jython-side
     // `system.python3.execShell(...)` exposure as well.
-    //
-    // See /modules/.review/fixes/C16.md for the deprecation note.
 
     /**
      * Check if Python 3 is available and the process pool is healthy.
@@ -918,7 +916,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      */
     @Override
     public Object callScript(String scriptPath, List<Object> args, Map<String, Object> kwargs) throws Exception {
-        // C13: Administrator role gate at the Jython entry-point.
+        // Administrator role gate at the Jython entry-point.
         // callScript executes a saved Python source from the repository which is
         // authored by Designers/Administrators, but the *invocation* of that
         // script via system.python3.callScript still grants the caller arbitrary

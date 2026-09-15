@@ -51,7 +51,7 @@ class ExecutionHandlersTest {
         lenient().when(httpReq.getHeader("X-Source")).thenReturn("Python3-IDE");
         lenient().when(req.getActor()).thenReturn("Python3-IDE");
 
-        // C13: SecurityMode.RESTRICTED was removed; DESIGNER_ADMIN is the
+        // SecurityMode.RESTRICTED was removed; DESIGNER_ADMIN is the
         // safe-default in tests (avoids SDK calls).
         lenient().when(securityService.determineSecurityMode(any())).thenReturn(SecurityMode.DESIGNER_ADMIN);
         lenient().when(httpReq.getHeader("X-Forwarded-For")).thenReturn(null);
@@ -71,7 +71,7 @@ class ExecutionHandlersTest {
 
         handlers = new ExecutionHandlers(ctx);
 
-        // C13: determineSecurityMode now throws SecurityException when the
+        // determineSecurityMode now throws SecurityException when the
         // static securityService is unset (instead of falling back to
         // RESTRICTED). Inject the mock so the production code finds it.
         Python3RestEndpoints.setSecurityService(securityService);

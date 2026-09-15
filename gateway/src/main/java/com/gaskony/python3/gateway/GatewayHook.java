@@ -56,7 +56,7 @@ public class GatewayHook extends AbstractGatewayModuleHook {
      * <p>Marked completed exceptionally if pool init throws; consumers can decide whether to
      * surface a 503 Service Unavailable, retry, or degrade.
      *
-     * @since v3.13.0 (P2-PY3 — async startup)
+     * @since v3.13.0 (async startup)
      */
     private final CompletableFuture<Void> readinessFuture = new CompletableFuture<>();
 
@@ -160,7 +160,7 @@ public class GatewayHook extends AbstractGatewayModuleHook {
      * <p>Completes {@link #readinessFuture} normally on success; exceptionally on failure
      * (logged at ERROR with operator guidance).
      *
-     * @since v3.13.0 (P2-PY3)
+     * @since v3.13.0
      */
     private void runDeferredInit() {
         long start = System.nanoTime();
@@ -332,7 +332,7 @@ public class GatewayHook extends AbstractGatewayModuleHook {
     public void shutdown() {
         logger.info("Python 3 Integration module shutdown");
 
-        // v3.13.0 (P2-PY3): If async init is still running, interrupt it and complete
+        // v3.13.0: If async init is still running, interrupt it and complete
         // readinessFuture exceptionally so any waiter wakes up immediately.
         Thread initThread = initThreadRef.get();
         if (initThread != null && initThread.isAlive()) {
@@ -446,7 +446,7 @@ public class GatewayHook extends AbstractGatewayModuleHook {
         // Designer -> Gateway communication uses module RPC (registered via
         // getRpcImplementation() below), which travels over the Designer's already
         // authenticated Gateway channel. This replaced the Designer's cold-HTTP REST
-        // client in v4.2.0: after the C13/C14 hardening the REST client could no longer
+        // client in v4.2.0: after security hardening the REST client could no longer
         // authenticate (no session cookie/token), so the Project Browser showed
         // "(Gateway unavailable)". The REST API remains for the browser Web UI and
         // external callers.
@@ -460,7 +460,7 @@ public class GatewayHook extends AbstractGatewayModuleHook {
         Python3RestEndpoints.setSecurityService(securityService);
         Python3RestEndpoints.setAuditLogger(auditLogger);
 
-        // v3.13.0 (P2-PY3): pool / pool-manager / distribution-manager / package-manager
+        // v3.13.0: pool / pool-manager / distribution-manager / package-manager
         // are wired by #runDeferredInit once the daemon thread completes. We still set the
         // distribution manager here defensively (it is created synchronously in #setup), but
         // pool-dependent setters are deferred until readinessFuture completes.

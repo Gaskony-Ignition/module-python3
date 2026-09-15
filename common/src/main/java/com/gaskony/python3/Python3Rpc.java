@@ -6,8 +6,8 @@ import com.inductiveautomation.ignition.common.rpc.RpcInterface;
  * Module RPC interface for authenticated Designer &rarr; Gateway communication.
  *
  * <p>Introduced in v4.2.0 to replace the Designer's cold-HTTP REST client, which
- * could no longer authenticate to the Gateway after the C13/C14 security
- * hardening removed the {@code X-Source} header bypass and the self-asserted
+ * could no longer authenticate to the Gateway after security hardening removed
+ * the {@code X-Source} header bypass and the self-asserted
  * {@code client_id} session-token grant. A stand-alone {@code java.net.http}
  * client carries none of the Designer's authenticated Gateway session, so every
  * REST call was rejected (401) and the Project Browser showed

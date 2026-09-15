@@ -209,7 +209,7 @@ public class Python3ProcessPool {
      * @throws Python3Exception if execution fails
      */
     public Python3Result execute(String code, java.util.Map<String, Object> variables) throws Python3Exception {
-        // C13: legacy "RESTRICTED" wire-value retained for protocol back-compat;
+        // Legacy "RESTRICTED" wire-value retained for protocol back-compat;
         // python_bridge.py ignores security_mode and the Java-side role check
         // (RoleResolver.requireAdministrator) is the actual gate.
         return execute(code, variables, "RESTRICTED");

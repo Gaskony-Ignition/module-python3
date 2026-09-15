@@ -141,7 +141,7 @@ public final class Python3RestEndpoints {
      * Used by execution handlers to label audit logs and pick a downstream
      * pool/bridge mode value.
      *
-     * <p>Security Model (post-C13, May 2026):</p>
+     * <p>Security Model:</p>
      * <ul>
      *   <li>{@link SecurityMode#DESIGNER_ADMIN}: caller authenticated via
      *       Designer/Administrator role</li>
@@ -157,7 +157,7 @@ public final class Python3RestEndpoints {
      *
      * @param req The request context
      * @return The security mode for this request
-     * @since v2.6.0; hardened in v3.13.0 (C13)
+     * @since v2.6.0; hardened in v3.13.0
      */
     static SecurityMode determineSecurityMode(RequestContext req) {
         if (securityService == null) {
@@ -184,7 +184,7 @@ public final class Python3RestEndpoints {
      * Security Model (v4.0.0):
      * - Unauthenticated requests are rejected with 403 (the previous
      *   silent demotion to RESTRICTED + safe-modules-only filter was removed
-     *   because the underlying sandbox was bypassable — see C13/§10 #3).
+     *   because the underlying sandbox was bypassable).
      * - DESIGNER_ADMIN: Designer IDE users (trusted, full Python capability)
      * - ADMIN: REST API with admin key (full Python capability, distinguished
      *   from DESIGNER_ADMIN only for audit-log clarity)

@@ -8,8 +8,7 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Regression test for the {@code execShell} removal (C16 in
- * {@code /modules/.review/FINAL_REVIEW.md}).
+ * Regression test for the {@code execShell} removal.
  *
  * <p>Ignition's {@code ScriptManager.addScriptModule} reflectively exposes the
  * public methods of the registered object as {@code system.python3.*} functions.

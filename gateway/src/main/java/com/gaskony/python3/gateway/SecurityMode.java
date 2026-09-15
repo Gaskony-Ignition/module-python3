@@ -3,12 +3,11 @@ package com.gaskony.python3.gateway;
 /**
  * Security modes for Python code execution.
  *
- * <h3>Trust model (May 2026, security review C13)</h3>
+ * <h3>Trust model</h3>
  *
  * <p>The previous {@code RESTRICTED} mode purported to confine untrusted callers
  * to a whitelist of "safe" Python modules via AST validation and string-match
- * filters in {@code python_bridge.py}. The check was trivially bypassable — see
- * the C13 finding in {@code /modules/.review/FINAL_REVIEW.md}. The mode and its
+ * filters in {@code python_bridge.py}. The check was trivially bypassable. The mode and its
  * sandbox have been deleted; access control is now enforced on the Java side
  * via {@link RoleResolver#requireAdministrator} before any Python source
  * reaches the bridge subprocess.</p>
@@ -27,7 +26,7 @@ package com.gaskony.python3.gateway;
  * Gateway in a container or VM whose blast radius matches your trust
  * requirements.</p>
  *
- * @since v2.6.0; sandbox removed in v3.13.0 (C13)
+ * @since v2.6.0; sandbox removed in v3.13.0
  */
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,7 +128,7 @@ public enum SecurityMode {
     /**
      * Check if this mode allows admin-level operations.
      *
-     * <p>Always {@code true} after the C13 cleanup — every remaining mode is
+     * <p>Always {@code true} — every remaining mode is
      * an admin mode. Retained for source compatibility with callers from
      * before the cleanup.</p>
      *

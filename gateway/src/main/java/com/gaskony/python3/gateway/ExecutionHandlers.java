@@ -31,7 +31,7 @@ class ExecutionHandlers {
     private final EndpointContext ctx;
 
     /**
-     * Resolves the actual Ignition roles bound to a request — used by the C14 fix for
+     * Resolves the actual Ignition roles bound to a request — used for
      * {@code /auth/session} token issuance. Static so a single test override applies to
      * any handler instance.
      */
@@ -62,7 +62,7 @@ class ExecutionHandlers {
      *
      * <p>Response: {@code {"success": true, "token": "...", "expires_in": 28800, "security_mode": "..."}}.
      *
-     * <h3>Security model (C14 fix)</h3>
+     * <h3>Security model</h3>
      * Prior to v3.13.0 this handler trusted the {@code client_id} body field: any caller posting
      * {@code "ignition-designer-anything"} received a {@link SecurityMode#DESIGNER_ADMIN} HMAC token
      * (8h expiry) which bypasses CSRF and unlocks unrestricted Python execution.
@@ -79,7 +79,7 @@ class ExecutionHandlers {
      * <p>The {@code client_id} field is now informational only (used in audit logs to track
      * which client requested the token). It is no longer used to determine privilege.
      *
-     * @since v2.9.0; auth binding hardened in v3.13.0 (C14)
+     * @since v2.9.0; auth binding hardened in v3.13.0
      */
     JsonObject handleCreateSession(RequestContext req, HttpServletResponse res) {
         return Python3RestEndpoints.withHandler("auth/session", res, () -> {
@@ -91,7 +91,7 @@ class ExecutionHandlers {
                 clientId = "unknown";
             }
 
-            // ----- C14: bind security mode to actual Ignition role membership -----
+            // ----- Bind security mode to actual Ignition role membership -----
             //
             // The previous behaviour ("startsWith(\"ignition-designer-\") → DESIGNER_ADMIN") let
             // any authenticated browser/REST client mint a privileged token. The fix is to
@@ -183,7 +183,7 @@ class ExecutionHandlers {
      *
      * <p>Returns {@code null} when the caller has no recognised role — caller should treat
      * this as a {@code 403 Forbidden} response (the previous "silently demote to RESTRICTED"
-     * behaviour was removed when the RESTRICTED mode was deleted in C13).
+     * behaviour was removed when the RESTRICTED mode was deleted).
      *
      * @param roles role names attached to the caller (case-insensitive); may be empty
      * @return the security mode to mint a token for, or {@code null} if no match

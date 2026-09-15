@@ -33,7 +33,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Regression tests for the C14 fix: {@code /auth/session} must bind the issued
+ * Regression tests for {@code /auth/session}: it must bind the issued
  * security mode to the caller's actual Ignition role membership rather than to
  * a self-asserted {@code client_id} field.
  *
@@ -50,7 +50,7 @@ import static org.mockito.Mockito.when;
  *   <li>{@code client_id} is informational only and never affects privilege.
  * </ul>
  *
- * @since v3.13.0 (C14 fix)
+ * @since v3.13.0
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

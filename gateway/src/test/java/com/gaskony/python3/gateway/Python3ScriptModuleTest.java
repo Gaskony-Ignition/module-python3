@@ -19,11 +19,11 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests for {@link Python3ScriptModule}.
  *
- * <p>Updated for security review C13 (May 2026): the default
+ * <p>The default
  * {@code securityMode} string passed downstream is now
  * {@code "DESIGNER_ADMIN"} (the legacy {@code "RESTRICTED"} mode was removed).
  * Tests also install a permissive {@link RoleResolver} stub so the
- * Administrator-role gate added in C13 doesn't block the existing happy-path
+ * Administrator-role gate doesn't block the existing happy-path
  * coverage; the gate itself is exercised by
  * {@link Python3ScriptModuleRoleGateTest}.</p>
  */
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class Python3ScriptModuleTest {
 
-    /** Default downstream security-mode wire value after the C13 cleanup. */
+    /** Default downstream security-mode wire value after the RESTRICTED cleanup. */
     private static final String DEFAULT_MODE = "DESIGNER_ADMIN";
 
     @Mock
@@ -50,7 +50,7 @@ class Python3ScriptModuleTest {
 
     @BeforeEach
     void setUp() {
-        // C13: install a permissive role resolver so the scripting role gate
+        // Install a permissive role resolver so the scripting role gate
         // doesn't block these tests. The gate itself is covered separately.
         Python3ScriptModule.setRoleResolverForTesting(new RoleResolver() {
             @Override
@@ -143,7 +143,7 @@ class Python3ScriptModuleTest {
     @Test
     void testExecWithNullVariables() throws Exception {
         // Given - pass DEFAULT_MODE explicitly; the legacy "RESTRICTED" wire-value
-        // also passes through verbatim (the bridge ignores it post-C13) but
+        // also passes through verbatim (the bridge ignores it) but
         // exercising the canonical default keeps the mock expectation simple.
         String code = "result = 42";
         Python3Result successResult = new Python3Result(true, 42.0, null, null);
@@ -168,7 +168,7 @@ class Python3ScriptModuleTest {
         when(mockPool.execute(eq(code), anyMap(), eq(DEFAULT_MODE)))
             .thenReturn(successResult);
 
-        // When - null security mode should default to DEFAULT_MODE (post-C13).
+        // When - null security mode should default to DEFAULT_MODE.
         Object result = scriptModule.exec(code, Collections.emptyMap(), null);
 
         // Then

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Regression tests for P2-PY3: {@code GatewayHook#startup} must return promptly
+ * Regression tests for async startup: {@code GatewayHook#startup} must return promptly
  * (≤100 ms) even when the deferred initialisation work would otherwise block on
  * Python interpreter spawn or {@code pip install jedi}.
  *
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * eventually completes (exceptionally is acceptable — the point is that it does
  * not hang the Gateway boot).
  *
- * @since v3.13.0 (P2-PY3 fix)
+ * @since v3.13.0
  */
 class GatewayHookAsyncStartupTest {
 

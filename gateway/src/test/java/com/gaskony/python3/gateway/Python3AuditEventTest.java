@@ -142,7 +142,7 @@ class Python3AuditEventTest {
 
     @Test
     void testIsAdminOperation() {
-        // C13: every remaining mode is an admin mode after RESTRICTED removal.
+        // Every remaining mode is an admin mode after RESTRICTED removal.
         Python3AuditEvent adminEvent = createTestEvent(SecurityMode.ADMIN);
         Python3AuditEvent designerEvent = createTestEvent(SecurityMode.DESIGNER_ADMIN);
 

@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Unit tests for {@link SecurityMode}.
  *
- * <p>Updated for security review C13 (May 2026): the {@code RESTRICTED} mode and
+ * <p>The {@code RESTRICTED} mode and
  * its (bypassable) sandbox were removed. Only {@link SecurityMode#DESIGNER_ADMIN}
  * and {@link SecurityMode#ADMIN} remain; both grant full Python capabilities and
  * are distinguished only for audit-log clarity. Access control is now enforced
@@ -17,7 +17,7 @@ class SecurityModeTest {
 
     @Test
     void testSecurityModeValues() {
-        // C13: only two modes after RESTRICTED removal.
+        // Only two modes after RESTRICTED removal.
         assertThat(SecurityMode.values()).hasSize(2);
         assertThat(SecurityMode.values()).containsExactlyInAnyOrder(
             SecurityMode.DESIGNER_ADMIN,
@@ -47,7 +47,7 @@ class SecurityModeTest {
 
     @Test
     void testFromString_LegacyRestrictedMapsToDesignerAdmin() {
-        // C13: the removed "RESTRICTED" wire-value safely maps to DESIGNER_ADMIN
+        // The removed "RESTRICTED" wire-value safely maps to DESIGNER_ADMIN
         // (both are admin-equivalent now; the actual access gate is the Java-side
         // role check).
         assertThat(SecurityMode.fromString("RESTRICTED")).isEqualTo(SecurityMode.DESIGNER_ADMIN);
@@ -56,7 +56,7 @@ class SecurityModeTest {
 
     @Test
     void testFromString_Invalid_DefaultsToDesignerAdmin() {
-        // C13: unknown / empty / null all map to DESIGNER_ADMIN (the only safe
+        // Unknown / empty / null all map to DESIGNER_ADMIN (the only safe
         // default once RESTRICTED is gone).
         assertThat(SecurityMode.fromString("INVALID")).isEqualTo(SecurityMode.DESIGNER_ADMIN);
         assertThat(SecurityMode.fromString("")).isEqualTo(SecurityMode.DESIGNER_ADMIN);
@@ -66,7 +66,7 @@ class SecurityModeTest {
 
     @Test
     void testIsAdminMode() {
-        // C13: every remaining mode is an admin mode.
+        // Every remaining mode is an admin mode.
         assertThat(SecurityMode.DESIGNER_ADMIN.isAdminMode()).isTrue();
         assertThat(SecurityMode.ADMIN.isAdminMode()).isTrue();
     }

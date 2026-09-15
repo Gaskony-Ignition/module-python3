@@ -352,8 +352,7 @@ public class Python3PackageManager {
         // Defence in depth: reject argument-injection attempts (e.g. --index-url=...)
         // before invoking pip. ProcessBuilder doesn't shell-escape, but pip itself
         // parses any argument starting with `-` as an option, so a malicious spec
-        // can re-point pip at an attacker-controlled index. See B2 in
-        // /modules/.review/FINAL_REVIEW.md.
+        // can re-point pip at an attacker-controlled index.
         if (!isValidPackageSpec(packageSpec)) {
             logger.warn("Rejected invalid pip package spec: {}", packageSpec);
             return new InstallResult(false,
@@ -662,7 +661,7 @@ public class Python3PackageManager {
      * @return True if the PRIMARY distribution uninstall succeeded
      */
     private boolean uninstallPipPackage(String packageName) {
-        // Defence in depth: same pip argument-injection class as install. See B2.
+        // Defence in depth: same pip argument-injection class as install.
         if (!isValidPackageSpec(packageName)) {
             logger.warn("Rejected invalid pip uninstall spec: {}", packageName);
             return false;

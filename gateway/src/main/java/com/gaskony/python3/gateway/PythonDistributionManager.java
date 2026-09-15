@@ -309,7 +309,7 @@ public class PythonDistributionManager {
             downloadFileWithProgress(url, downloadPath, version);
             notifyProgress(version, "verifying", 75, "Verifying integrity...");
 
-            // C15: Verify pinned SHA-256 before extraction. Refuses by default if no
+            // Verify pinned SHA-256 before extraction. Refuses by default if no
             // hash is configured (override via -Dignition.python3.skipChecksum=true).
             verifyDownloadedTarball(downloadPath, url);
 
@@ -739,7 +739,7 @@ public class PythonDistributionManager {
             downloadFile(url, downloadPath);
             logger.info("Download complete, verifying integrity...");
 
-            // C15: Verify pinned SHA-256 before extraction.
+            // Verify pinned SHA-256 before extraction.
             verifyDownloadedTarball(downloadPath, url);
 
             logger.info("Integrity verified, extracting...");
@@ -861,7 +861,7 @@ public class PythonDistributionManager {
     }
 
     // ========================================================================
-    // Tar extraction security limits (C15 — Sprint 2 hardening)
+    // Tar extraction security limits
     // ========================================================================
     //
     // python-build-standalone tarballs are typically 30–60 MB compressed,
@@ -879,7 +879,7 @@ public class PythonDistributionManager {
      *
      * <p>Volatile to allow package-private overrides during unit testing of
      * the size-cap branches without having to construct a 500 MB+ fixture.
-     * Production code never mutates this field; see C15 fix-report.
+     * Production code never mutates this field.
      */
     static volatile long MAX_UNCOMPRESSED_TOTAL_BYTES = 500L * 1024 * 1024; // 500 MB
 
@@ -896,7 +896,7 @@ public class PythonDistributionManager {
     /**
      * Extract a tar.gz archive into {@code destDir} with full security validation.
      *
-     * <p>Hardening (Sprint 2 / C15):
+     * <p>Hardening:
      * <ol>
      *   <li><b>Tar-slip protection</b> — every entry's normalised path must remain inside
      *       {@code destDir}. Entries containing {@code ../}, absolute paths, or
@@ -1075,7 +1075,7 @@ public class PythonDistributionManager {
     }
 
     // ========================================================================
-    // SHA-256 verification (C15 — Sprint 2 hardening)
+    // SHA-256 verification
     // ========================================================================
 
     /**
@@ -1136,7 +1136,7 @@ public class PythonDistributionManager {
      * <p>The hashes are sourced from the upstream {@code .sha256} sidecar files
      * published next to each release tarball at
      * <a href="https://github.com/indygreg/python-build-standalone/releases">github.com/indygreg/python-build-standalone/releases</a>.
-     * The Sprint 2 fix (C15) introduced this map; entries without a real hash
+     * Entries without a real hash
      * intentionally remain {@code null} so {@link #verifySha256} refuses to
      * extract them — operators must opt-in to skip verification by setting
      * {@code -Dignition.python3.skipChecksum=true}.
@@ -1147,7 +1147,7 @@ public class PythonDistributionManager {
     static final Map<String, String> PINNED_SHA256 = new HashMap<>();
     static {
         // v4.3.5: all 20 hashes populated from the upstream .sha256 sidecars —
-        // the C15 "verify out-of-band then pin" rollout step had been left as
+        // the "verify out-of-band then pin" rollout step had been left as
         // null-seeding, so a clean gateway with no system Python refused to
         // extract its own auto-download and the pool never started
         // (Acceptance Contract workflow 1 defect, found 04/07/2026).

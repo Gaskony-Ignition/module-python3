@@ -345,7 +345,7 @@ public class Python3ScriptConsole extends JPanel {
         try {
             Python3CompletionProvider completionProvider = new Python3CompletionProvider(restClient);
             AutoCompletion autoCompletion = new AutoCompletion(completionProvider);
-            // Explicit Ctrl+Space only (charter §4 quality bar). The provider is
+            // Explicit Ctrl+Space only. The provider is
             // invoked synchronously on the EDT, so firing it on every typing
             // pause would stutter the editor now that completions actually
             // reach Jedi over RPC.

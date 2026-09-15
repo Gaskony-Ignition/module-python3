@@ -13,7 +13,7 @@ import java.awt.Window;
  * <p>Explains, without leaving the Designer: how to use the console, how saved
  * scripts become callable from the rest of Ignition via {@code system.python3.*}
  * (Perspective events, tag scripts, timers), what data types cross the bridge,
- * and the injection anti-pattern from the project charter §2. Content mirrors
+ * and the injection anti-pattern. Content mirrors
  * {@code docs/getting-started/INTEGRATION_GUIDE.md} — update both together.</p>
  *
  * <p>Modeless (like {@link DiagnosticsDialog}) so it can stay open next to the

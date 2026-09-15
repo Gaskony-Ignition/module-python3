@@ -7,8 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Regression tests for the pip argument-injection BLOCKER (B2 in
- * {@code /modules/.review/FINAL_REVIEW.md}).
+ * Regression tests for the pip argument-injection guard.
  *
  * <p>{@code Python3PackageManager.isValidPackageSpec} must:</p>
  * <ul>

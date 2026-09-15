@@ -19,7 +19,7 @@ import java.util.Set;
  *
  * <p>Serves the Designer over the platform's authenticated module-RPC channel,
  * replacing the Designer's old cold-HTTP REST client (which could not
- * authenticate to the Gateway after the C13/C14 security hardening). Because the
+ * authenticate to the Gateway after security hardening). Because the
  * RPC channel is only reachable by an authenticated Gateway client, and the
  * caller identity is available via {@link RpcDelegate#session()}, no session
  * token is required.</p>
@@ -158,7 +158,7 @@ public class Python3RpcHandler implements Python3Rpc {
             Python3ScriptModule sm = hook.getScriptModule();
             // Per-execution structured audit is emitted by Python3ScriptModule.execTrusted()
             // via Python3AuditLogger. The runtime scripting opt-out gate is deliberately NOT
-            // enforced here: per charter §2 (2026-07-02), an authenticated Designer session
+            // enforced here: an authenticated Designer session
             // must always be able to develop/test, independent of that gateway-wide opt-out.
             Object result = sm.execTrusted(code, variables, pythonVersion);
             response.addProperty("success", true);
@@ -181,7 +181,7 @@ public class Python3RpcHandler implements Python3Rpc {
         try {
             Python3ScriptModule sm = hook.getScriptModule();
             // See exec() above: the trusted path skips the runtime scripting opt-out gate,
-            // which does not apply to authenticated Designer sessions (charter §2, 2026-07-02).
+            // which does not apply to authenticated Designer sessions.
             Object result = sm.evalTrusted(expression, variables, pythonVersion);
             response.addProperty("success", true);
             response.addProperty("result", result != null ? result.toString() : null);

@@ -181,7 +181,7 @@ public class Python3SecurityService {
     /**
      * Determine security mode for a request.
      * <p>
-     * Decision flow (post-C13, May 2026):
+     * Decision flow:
      * <ol>
      *   <li>Valid session token (Designer IDE / API) → token's security mode</li>
      *   <li>Admin API key in {@code Authorization: Bearer ...} → ADMIN</li>
@@ -189,7 +189,7 @@ public class Python3SecurityService {
      *   <li>No authentication / invalid token → throws {@link SecurityException}</li>
      * </ol>
      * <p>The previous "fall through to RESTRICTED" branch was removed when
-     * RESTRICTED was deleted (security review C13). Callers that previously
+     * RESTRICTED was deleted. Callers that previously
      * silently demoted to RESTRICTED must now handle the SecurityException as
      * "401 Unauthorized" / "403 Forbidden".
      *
@@ -218,7 +218,7 @@ public class Python3SecurityService {
         }
 
         // 3. No authentication — deny. (The previous RESTRICTED fallback was
-        // removed in C13 because the underlying sandbox was bypassable.)
+        // removed because the underlying sandbox was bypassable.)
         logger.debug("No valid authentication provided — denying access");
         throw new SecurityException(
             "Authentication required to execute Python");

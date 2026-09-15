@@ -316,8 +316,7 @@ public class PythonDistributionManagerTest {
      * Test 10 (v4.3.5): every downloadable distribution URL must carry a real
      * pinned SHA-256. Null pins make {@code verifyDownloadedTarball} refuse to
      * extract, which on a gateway with no system Python means the pool can
-     * never start — the Acceptance Contract workflow-1 defect found 04/07/2026
-     * (the C15 pin table had been seeded with nulls and never populated).
+     * never start — the pin table had been seeded with nulls and never populated.
      */
     @Test
     public void testAllDistributionUrlsHavePinnedSha256() {

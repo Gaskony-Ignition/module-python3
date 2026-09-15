@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Regression tests for the C15 fix to {@code PythonDistributionManager}:
+ * Regression tests for tar extraction hardening in {@code PythonDistributionManager}:
  *
  * <ul>
  *   <li>tar-slip: malicious entry names with {@code ../} or absolute paths are rejected;</li>
@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * <p>The tests build the input tarballs in-memory rather than fetching real
  * python-build-standalone artefacts so the suite stays hermetic and fast.
  *
- * @since v3.13.0 (C15 fix)
+ * @since v3.13.0
  */
 class PythonDistributionExtractTarGzTest {
 

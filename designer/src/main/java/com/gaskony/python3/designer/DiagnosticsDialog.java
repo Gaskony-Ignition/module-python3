@@ -9,7 +9,7 @@ import java.awt.Window;
  *
  * <p>Gives Designer users — who may have no Gateway web access — a read-only
  * view of pool statistics, gateway impact, module logs, and the Python
- * environment (charter §4, workflows 4 and 5).</p>
+ * environment.</p>
  *
  * <p>Deliberately modeless (overriding the {@link BaseModuleDialog} default)
  * so a developer can run scripts in the console and watch pool stats and
