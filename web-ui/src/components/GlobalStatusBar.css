@@ -1,0 +1,83 @@
+.app-wrapper .global-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  min-height: 28px;
+  max-height: 28px;
+  padding: 0 12px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-default);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  z-index: var(--z-base);
+  user-select: none;
+}
+
+.app-wrapper .gsb-left,
+.app-wrapper .gsb-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.app-wrapper .gsb-metric {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+}
+
+.app-wrapper .gsb-metric svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.app-wrapper .gsb-bar {
+  width: 48px;
+  height: 4px;
+  background: var(--bg-hover);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.app-wrapper .gsb-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width var(--transition-slow);
+}
+
+.app-wrapper .gsb-value {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  min-width: 32px;
+  text-align: right;
+}
+
+.app-wrapper .gsb-pool-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.app-wrapper .gsb-pool-count {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.app-wrapper .gsb-loading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.app-wrapper .spin {
+  animation: spin 1s linear infinite;
+}

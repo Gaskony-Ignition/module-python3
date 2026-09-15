@@ -1,0 +1,263 @@
+/* PyPI Search Panel */
+.app-wrapper .pypi-search {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-wrapper .pypi-search__input-wrap {
+  position: relative;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.app-wrapper .pypi-search__icon {
+  position: absolute;
+  left: calc(var(--spacing-lg) + 10px);
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.app-wrapper .pypi-search__input {
+  width: 100%;
+  max-width: 500px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  padding: 8px 36px 8px 32px;
+  outline: none;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.app-wrapper .pypi-search__input::placeholder {
+  color: var(--text-muted);
+}
+
+.app-wrapper .pypi-search__input:focus {
+  border-color: var(--border-focus);
+  background: var(--bg-secondary);
+}
+
+.app-wrapper .pypi-search__spinner {
+  position: absolute;
+  right: calc(var(--spacing-lg) + 10px);
+  color: var(--accent-primary);
+  animation: pkg-spin 1s linear infinite;
+}
+
+.app-wrapper .pypi-search__error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--accent-error-bg);
+  border-bottom: 1px solid var(--accent-error-border);
+  color: var(--accent-error);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.app-wrapper .pypi-search__results {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.app-wrapper .pypi-search__empty {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  padding: var(--spacing-xl) 0;
+}
+
+.app-wrapper .pypi-search__result {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  transition: border-color var(--transition-fast);
+}
+
+.app-wrapper .pypi-search__result:hover {
+  border-color: var(--border-light);
+}
+
+.app-wrapper .pypi-search__result--expanded {
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .pypi-search__result-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.app-wrapper .pypi-search__result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-wrapper .pypi-search__result-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.app-wrapper .pypi-search__result-name {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.app-wrapper .pypi-search__result-version {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.app-wrapper .pypi-search__result-summary {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 4px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-wrapper .pypi-search__result-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.app-wrapper .pypi-search__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .pypi-search__link:hover {
+  background: var(--bg-hover);
+  color: var(--accent-primary);
+}
+
+.app-wrapper .pypi-search__install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 1px solid var(--accent-primary-border);
+  background: var(--accent-primary-bg);
+  color: var(--accent-primary);
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-wrapper .pypi-search__install-btn:not(:disabled):hover {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .pypi-search__install-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Expanded detail panel ---- */
+.app-wrapper .pypi-search__detail {
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--border-default);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.app-wrapper .pypi-search__detail-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.app-wrapper .pypi-search__detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm) var(--spacing-md);
+}
+
+.app-wrapper .pypi-search__detail-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.app-wrapper .pypi-search__detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+.app-wrapper .pypi-search__detail-link:hover {
+  text-decoration: underline;
+}
+
+.app-wrapper .pypi-search__detail-versions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.app-wrapper .pypi-search__version-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.app-wrapper .pypi-search__version-select {
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  outline: none;
+  max-width: 200px;
+}
+
+.app-wrapper .pypi-search__version-select:focus {
+  border-color: var(--border-focus);
+}

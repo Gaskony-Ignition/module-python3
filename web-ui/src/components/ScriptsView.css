@@ -1,0 +1,890 @@
+/* ==========================================================================
+   Scripts View - two-panel script browser + detail
+   All selectors scoped to .app-wrapper
+   ========================================================================== */
+
+/* ---- Top-level layout ---- */
+
+.app-wrapper .scripts-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ---- Header bar ---- */
+
+.app-wrapper .scripts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  min-height: 40px;
+  padding: 0 12px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.app-wrapper .scripts-header-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.app-wrapper .scripts-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-wrapper .scripts-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-wrapper .scripts-header-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .scripts-header-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.app-wrapper .scripts-header-btn.primary {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+.app-wrapper .scripts-header-btn.primary:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* ---- Error banner ---- */
+
+.app-wrapper .scripts-error-banner {
+  padding: 6px 12px;
+  background: var(--accent-error-bg);
+  border-bottom: 1px solid var(--accent-error-border);
+  color: var(--accent-error);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ---- Two-panel layout ---- */
+
+.app-wrapper .scripts-panels {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ---- Left panel (tree) ---- */
+
+.app-wrapper .scripts-left-panel {
+  width: 250px;
+  min-width: 180px;
+  max-width: 400px;
+  border-right: 1px solid var(--border-default);
+  background: var(--bg-secondary);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* ---- Right panel (detail) ---- */
+
+.app-wrapper .scripts-right-panel {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-primary);
+}
+
+/* ==========================================================================
+   ScriptTreePanel
+   ========================================================================== */
+
+.app-wrapper .script-tree-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-wrapper .script-tree-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  color: var(--text-muted);
+}
+
+.app-wrapper .script-tree-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+}
+
+.app-wrapper .script-tree-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.app-wrapper .script-tree-refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .script-tree-refresh:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .script-tree-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.app-wrapper .script-tree-empty {
+  padding: 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Script list item */
+.app-wrapper .script-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: left;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  position: relative;
+}
+
+.app-wrapper .script-tree-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .script-tree-item:hover .script-tree-item-delete {
+  opacity: 1;
+}
+
+.app-wrapper .script-tree-item.active {
+  background: var(--bg-active);
+  border-left-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.app-wrapper .script-tree-item-icon {
+  display: flex;
+  align-items: center;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-item-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-wrapper .script-tree-item-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-item-delete:hover {
+  background: var(--accent-error-bg);
+  color: var(--accent-error);
+}
+
+/* ---- Folder sections ---- */
+
+.app-wrapper .script-tree-folder {
+  /* Wraps header + contents */
+}
+
+.app-wrapper .script-tree-folder-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding: 5px 8px 5px 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: left;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  user-select: none;
+}
+
+.app-wrapper .script-tree-folder-header:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .script-tree-folder-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-folder-icon {
+  display: flex;
+  align-items: center;
+  color: var(--accent-warning);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-folder-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-wrapper .script-tree-folder-count {
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 0 5px;
+  min-width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-folder-contents {
+  /* Indent the scripts inside a folder */
+}
+
+.app-wrapper .script-tree-folder-empty {
+  padding: 6px 12px 6px 32px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* Indented script (inside a folder) */
+.app-wrapper .script-tree-item.indented {
+  padding-left: 28px;
+}
+
+/* ---- Hover action buttons on each script item ---- */
+
+.app-wrapper .script-tree-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-item:hover .script-tree-item-actions {
+  opacity: 1;
+}
+
+.app-wrapper .script-tree-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-tree-action-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.app-wrapper .script-tree-action-btn.delete:hover {
+  background: var(--accent-error-bg);
+  color: var(--accent-error);
+}
+
+/* ---- Inline rename input inside script item ---- */
+
+.app-wrapper .script-tree-rename-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-sm);
+  padding: 1px 6px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  outline: none;
+}
+
+.app-wrapper .script-tree-rename-input:disabled {
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   ScriptDetailPanel
+   ========================================================================== */
+
+.app-wrapper .script-detail-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 24px;
+  text-align: center;
+}
+
+.app-wrapper .script-detail-error {
+  color: var(--accent-error);
+}
+
+.app-wrapper .script-detail-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+.app-wrapper .script-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.app-wrapper .script-detail-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.app-wrapper .script-detail-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-wrapper .script-detail-updated {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.app-wrapper .script-detail-folder {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Editable name input shown when editing */
+.app-wrapper .script-detail-name-input {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  outline: none;
+  width: 100%;
+  max-width: 320px;
+  transition: border-color var(--transition-fast);
+}
+
+.app-wrapper .script-detail-name-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .script-detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-wrapper .script-action-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .script-action-btn.primary {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+.app-wrapper .script-action-btn.primary:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .script-action-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.app-wrapper .script-detail-description-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-detail-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.app-wrapper .script-detail-desc-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.app-wrapper .script-detail-desc-text em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.app-wrapper .script-detail-desc-input {
+  flex: 1;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.app-wrapper .script-detail-desc-input:focus {
+  border-color: var(--border-focus);
+}
+
+.app-wrapper .script-detail-code-area {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Read-only code view */
+.app-wrapper .script-detail-code-block {
+  flex: 1;
+  margin: 0;
+  padding: 16px;
+  overflow: auto;
+  background: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  white-space: pre;
+  tab-size: 4;
+}
+
+.app-wrapper .script-detail-code-block code {
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Editable textarea */
+.app-wrapper .script-detail-editor {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  background: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+  tab-size: 4;
+  white-space: pre;
+  overflow: auto;
+}
+
+.app-wrapper .script-detail-editor:focus {
+  outline: none;
+}
+
+/* ==========================================================================
+   ImportExportModal
+   ========================================================================== */
+
+.app-wrapper .modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal-backdrop);
+  background: var(--modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.app-wrapper .modal-dialog {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: var(--z-modal);
+}
+
+.app-wrapper .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.app-wrapper .modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.app-wrapper .modal-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .modal-close-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .modal-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.app-wrapper .modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.app-wrapper .modal-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.app-wrapper .modal-input {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.app-wrapper .modal-input:focus {
+  border-color: var(--border-focus);
+}
+
+.app-wrapper .modal-file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-wrapper .modal-file-input {
+  display: none;
+}
+
+.app-wrapper .modal-file-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-wrapper .modal-file-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .modal-file-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-wrapper .modal-status {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+}
+
+.app-wrapper .modal-status.error {
+  background: var(--accent-error-bg);
+  border: 1px solid var(--accent-error-border);
+  color: var(--accent-error);
+}
+
+.app-wrapper .modal-status.success {
+  background: var(--accent-secondary-bg);
+  border: 1px solid var(--accent-secondary-border);
+  color: var(--accent-secondary);
+}
+
+.app-wrapper .modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-default);
+}
+
+.app-wrapper .modal-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .modal-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .modal-btn.primary {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+.app-wrapper .modal-btn.primary:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .modal-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ==========================================================================
+   Move to folder overlay
+   ========================================================================== */
+
+.app-wrapper .script-move-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--modal-backdrop);
+  z-index: var(--z-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-wrapper .script-move-modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 240px;
+  max-width: 360px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.app-wrapper .script-move-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.app-wrapper .script-move-option {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  color: var(--text-primary);
+  font-size: 12px;
+  cursor: pointer;
+  margin-bottom: 2px;
+}
+
+.app-wrapper .script-move-option:hover {
+  background: var(--bg-tertiary);
+}
+
+.app-wrapper .script-move-option.active {
+  background: var(--bg-tertiary);
+  color: var(--accent-primary);
+  font-weight: 500;
+}

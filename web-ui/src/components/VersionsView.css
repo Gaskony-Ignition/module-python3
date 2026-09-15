@@ -1,0 +1,318 @@
+/* ==========================================================================
+   VersionsView - Scoped to .app-wrapper
+   ========================================================================== */
+
+.app-wrapper .versions-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ---- Page header ---- */
+.app-wrapper .versions-view__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.app-wrapper .versions-view__header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-wrapper .versions-view__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.app-wrapper .versions-view__subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.app-wrapper .versions-view__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* ---- Refresh button ---- */
+.app-wrapper .versions-refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 6px 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.app-wrapper .versions-refresh-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+.app-wrapper .versions-refresh-btn.spinning svg {
+  animation: versions-spin 0.75s linear infinite;
+}
+
+@keyframes versions-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Body / scroll area ---- */
+.app-wrapper .versions-view__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+
+/* ---- Loading / error states ---- */
+.app-wrapper .versions-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.app-wrapper .versions-loading svg {
+  width: 20px;
+  height: 20px;
+  animation: versions-spin 0.75s linear infinite;
+  color: var(--accent-primary);
+}
+
+.app-wrapper .versions-error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--accent-error-bg);
+  border: 1px solid var(--accent-error-border);
+  border-radius: var(--radius-md);
+  color: var(--accent-error);
+  font-size: 13px;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ---- Grid ---- */
+.app-wrapper .versions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+/* ---- Version card ---- */
+.app-wrapper .version-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.app-wrapper .version-card:hover {
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-wrapper .version-card--installed {
+  border-left: 3px solid var(--success);
+}
+
+/* Card header row */
+.app-wrapper .version-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.app-wrapper .version-card__label {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
+.app-wrapper .version-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ---- Status badges ---- */
+.app-wrapper .version-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.app-wrapper .version-badge--default {
+  background: var(--accent-primary);
+  color: #fff;
+}
+
+.app-wrapper .version-badge--installed {
+  background: var(--accent-secondary-bg);
+  color: var(--success);
+  border: 1px solid var(--accent-secondary-border);
+}
+
+.app-wrapper .version-badge--available {
+  background: var(--border-accent);
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-primary-border);
+}
+
+.app-wrapper .version-badge--installing,
+.app-wrapper .version-badge--uninstalling {
+  background: var(--accent-warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--accent-warning-border);
+}
+
+/* Path row */
+.app-wrapper .version-card__path {
+  overflow: hidden;
+}
+
+.app-wrapper .version-card__path-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+/* Pool size row */
+.app-wrapper .version-card__pool {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.app-wrapper .version-card__pool-label {
+  color: var(--text-secondary);
+}
+
+.app-wrapper .version-card__pool-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Actions row */
+.app-wrapper .version-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+/* Card buttons */
+.app-wrapper .version-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.app-wrapper .version-card-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.app-wrapper .version-card-btn--primary {
+  background: var(--border-accent);
+  border-color: var(--accent-primary-border);
+  color: var(--accent-primary);
+}
+
+.app-wrapper .version-card-btn--primary:not(:disabled):hover {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .version-card-btn--danger {
+  background: var(--accent-error-bg);
+  border-color: var(--accent-error-border);
+  color: var(--accent-error);
+}
+
+.app-wrapper .version-card-btn--danger:not(:disabled):hover {
+  background: var(--accent-error-bg);
+  border-color: var(--accent-error);
+}
+
+.app-wrapper .version-card-btn__spinner {
+  animation: versions-spin 0.75s linear infinite;
+}
+
+/* Installed check icon */
+.app-wrapper .version-card__installed-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--success);
+  opacity: 0.7;
+}
+
+/* ---- Empty state ---- */
+.app-wrapper .versions-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: 48px;
+  color: var(--text-tertiary);
+  font-size: 14px;
+  text-align: center;
+}
+
+.app-wrapper .versions-empty svg {
+  width: 32px;
+  height: 32px;
+  color: var(--text-muted);
+  opacity: 0.5;
+}

@@ -1,0 +1,225 @@
+/* ==========================================================================
+   Python 3 IDE - Global Styles
+   All CSS scoped to .app-wrapper to prevent Gateway UI pollution
+   ========================================================================== */
+
+.app-wrapper,
+.app-wrapper * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-wrapper {
+  /* === Colour Palette — Catppuccin Mocha (standardised across all modules) === */
+  --bg-primary: #11111b;
+  --bg-secondary: #181825;
+  --bg-tertiary: #1e1e2e;
+  --bg-hover: #313244;
+  --bg-active: #45475a;
+
+  --text-primary: #cdd6f4;
+  --text-secondary: #bac2de;
+  --text-tertiary: #a6adc8;
+  --text-muted: #6c7086;
+  --text-inverse: #11111b;
+
+  --accent-primary: #89b4fa;
+  --accent-secondary: #a6e3a1;
+  --accent-warning: #f9e2af;
+  --accent-error: #f38ba8;
+  --accent-info: #89dceb;
+
+  --border-default: #313244;
+  --border-light: #45475a;
+  --border-focus: #89b4fa;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --font-mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  --font-size-xs: 10px;
+  --font-size-sm: 11px;
+  --font-size-base: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.25);
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.35s ease;
+
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sidebar: 200;
+  --z-overlay: 500;
+  --z-modal-backdrop: 1000;
+  --z-modal: 1001;
+  --z-toast: 1100;
+  --z-tooltip: 1300;
+
+  --success: #a6e3a1;
+  --error: #f38ba8;
+  --warning: #f9e2af;
+  --info: #89b4fa;
+
+  /* UI chrome (aligned with AI Terminal / Git / PLC Emulator) */
+  --overlay-muted: #585b70;
+  --accent-primary-hover: #b4d0fb;
+  --accent-peach: #fab387;
+  --border-accent: rgba(137, 180, 250, 0.12);
+  --header-gradient: linear-gradient(135deg, rgba(137, 180, 250, 0.06) 0%, rgba(137, 180, 250, 0.02) 40%, transparent 70%);
+  --modal-backdrop: rgba(0, 0, 0, 0.6);
+
+  /* Background tints for badges/alerts */
+  --accent-primary-bg: rgba(137, 180, 250, 0.1);
+  --accent-secondary-bg: rgba(166, 227, 161, 0.1);
+  --accent-error-bg: rgba(243, 139, 168, 0.1);
+  --accent-warning-bg: rgba(249, 226, 175, 0.1);
+  --accent-peach-bg: rgba(250, 179, 135, 0.15);
+
+  /* Accent tint borders */
+  --accent-primary-border: rgba(137, 180, 250, 0.3);
+  --accent-secondary-border: rgba(166, 227, 161, 0.3);
+  --accent-error-border: rgba(243, 139, 168, 0.3);
+  --accent-warning-border: rgba(249, 226, 175, 0.3);
+
+  /* Subtle overlays */
+  --border-subtle: rgba(255, 255, 255, 0.03);
+  --overlay-dark: rgba(0, 0, 0, 0.5);
+  --border-hover: #585b70;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-wrapper ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.app-wrapper ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.app-wrapper ::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: var(--radius-sm);
+}
+
+.app-wrapper ::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* ==========================================================================
+   Shared Button System
+   ========================================================================== */
+.app-wrapper .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.app-wrapper .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.app-wrapper .btn-primary { background: var(--accent-primary); color: var(--bg-primary); border-color: var(--accent-primary); }
+.app-wrapper .btn-primary:hover:not(:disabled) { filter: brightness(1.1); }
+.app-wrapper .btn-secondary { background: var(--bg-tertiary); color: var(--text-secondary); border-color: var(--border-default); }
+.app-wrapper .btn-secondary:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); border-color: var(--border-light); }
+.app-wrapper .btn-danger { background: transparent; color: var(--accent-error); border-color: var(--accent-error); }
+.app-wrapper .btn-danger:hover:not(:disabled) { background: var(--accent-error-bg); }
+.app-wrapper .btn-ghost { background: transparent; color: var(--text-secondary); border-color: transparent; }
+.app-wrapper .btn-ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); }
+.app-wrapper .btn-icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; background: transparent; color: var(--text-secondary); border: none; border-radius: var(--radius-sm); cursor: pointer; }
+.app-wrapper .btn-icon:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); }
+.app-wrapper .btn-sm { padding: 4px 10px; font-size: 12px; }
+.app-wrapper .btn-xs { padding: 2px 8px; font-size: 11px; }
+
+/* ==========================================================================
+   Shared Form Inputs
+   ========================================================================== */
+.app-wrapper .form-input,
+.app-wrapper .form-select {
+  width: 100%;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+.app-wrapper .form-input:focus,
+.app-wrapper .form-select:focus { border-color: var(--accent-primary); }
+.app-wrapper .form-input::placeholder { color: var(--text-tertiary); }
+
+/* ==========================================================================
+   Accessibility: Skip Link (WCAG 2.4.1 Bypass Blocks)
+   ========================================================================== */
+.app-wrapper .skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 8px 16px;
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0 0 var(--radius-md) 0;
+  z-index: var(--z-tooltip);
+  transform: translateY(-100%);
+  transition: transform var(--transition-fast);
+}
+.app-wrapper .skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Accessibility: Reduced Motion (WCAG 2.3.3 Animation from Interactions)
+   Respect users with vestibular disorders / motion sensitivity.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .app-wrapper *,
+  .app-wrapper *::before,
+  .app-wrapper *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

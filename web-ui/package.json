@@ -1,0 +1,48 @@
+{
+  "name": "python3-ide-ui",
+  "version": "4.6.2",
+  "private": true,
+  "description": "React Web UI for Python 3 Integration Module (Ignition Gateway)",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "clean": "rimraf build",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "codemirror": "^6.0.0",
+    "@codemirror/lang-python": "^6.1.0",
+    "@codemirror/theme-one-dark": "^6.1.0",
+    "@codemirror/autocomplete": "^6.0.0",
+    "@codemirror/lint": "^6.0.0",
+    "lucide-react": "^0.575.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.36.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.22",
+    "globals": "^16.2.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.45.0",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^5.1.4",
+    "rimraf": "^3.0.2",
+    "vitest": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "jsdom": "^24.0.0",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/jest-dom": "^6.6.3"
+  }
+}
