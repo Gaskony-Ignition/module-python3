@@ -1,0 +1,251 @@
+/* ==========================================================================
+   LogsView - Gateway log viewer
+   ========================================================================== */
+
+.app-wrapper .logs-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ---- Header ---- */
+.app-wrapper .logs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+  gap: var(--spacing-md);
+}
+
+.app-wrapper .logs-header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.app-wrapper .logs-header__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.app-wrapper .logs-header__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.app-wrapper .logs-level-select {
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  outline: none;
+  cursor: pointer;
+}
+
+.app-wrapper .logs-level-select:focus {
+  border-color: var(--border-focus);
+}
+
+.app-wrapper .logs-filter-input {
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  outline: none;
+  width: 180px;
+}
+
+.app-wrapper .logs-filter-input::placeholder {
+  color: var(--text-muted);
+}
+
+.app-wrapper .logs-filter-input:focus {
+  border-color: var(--border-focus);
+}
+
+.app-wrapper .logs-refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 5px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .logs-refresh-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .logs-refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.app-wrapper .logs-autoscroll-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 5px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .logs-autoscroll-btn--active {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Pause/Resume button */
+.app-wrapper .logs-pause-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 5px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .logs-pause-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .logs-pause-btn--paused {
+  background: var(--accent-warning-bg);
+  border-color: var(--accent-warning);
+  color: var(--accent-warning);
+}
+
+/* ---- Log list ---- */
+.app-wrapper .logs-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.app-wrapper .logs-empty {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  padding: var(--spacing-xl) 0;
+}
+
+.app-wrapper .logs-entry {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: 2px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.app-wrapper .logs-entry:hover {
+  background: var(--bg-hover);
+}
+
+.app-wrapper .logs-entry__timestamp {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  min-width: 145px;
+}
+
+.app-wrapper .logs-entry__level {
+  flex-shrink: 0;
+  min-width: 44px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.app-wrapper .logs-entry__level--INFO {
+  color: var(--success);
+}
+
+.app-wrapper .logs-entry__level--WARN {
+  color: var(--warning);
+}
+
+.app-wrapper .logs-entry__level--ERROR {
+  color: var(--error);
+}
+
+.app-wrapper .logs-entry__level--DEBUG {
+  color: var(--text-tertiary);
+}
+
+.app-wrapper .logs-entry__level--TRACE {
+  color: var(--text-muted);
+}
+
+.app-wrapper .logs-entry__message {
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  flex: 1;
+}
+
+.app-wrapper .logs-load-more {
+  text-align: center;
+  padding: var(--spacing-md) 0;
+}
+
+.app-wrapper .logs-load-more-btn {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  color: var(--accent-primary);
+  background: var(--accent-primary-bg);
+  border: 1px solid var(--accent-primary-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.app-wrapper .logs-load-more-btn:hover {
+  background: var(--accent-primary-bg);
+}
+
+.app-wrapper .logs-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px var(--spacing-lg);
+  border-top: 1px solid var(--border-default);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}

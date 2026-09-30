@@ -1,0 +1,216 @@
+# Claude Code Integration - Git Ignore
+
+# ============================================================================
+# Gradle
+# ============================================================================
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+.gradletasknamecache
+
+# Web UI build artifacts (now at root level after flattening)
+web-ui/node_modules/
+web-ui/build/
+gateway/src/main/resources/mounted/
+
+# ============================================================================
+# Java / JVM
+# ============================================================================
+*.class
+*.jar
+!gradle-wrapper.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+
+# ============================================================================
+# IntelliJ IDEA
+# ============================================================================
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.idea_modules/
+
+# ============================================================================
+# Eclipse
+# ============================================================================
+.classpath
+.project
+.settings/
+bin/
+tmp/
+
+# ============================================================================
+# VS Code
+# ============================================================================
+.vscode/
+*.code-workspace
+
+# ============================================================================
+# macOS
+# ============================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ============================================================================
+# Windows
+# ============================================================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Windows WSL metadata (CRITICAL - NEVER COMMIT)
+*:Zone.Identifier
+**/*:Zone.Identifier
+*.Zone.Identifier
+**/*.Zone.Identifier
+
+# ============================================================================
+# Linux
+# ============================================================================
+*~
+.directory
+.Trash-*
+
+# ============================================================================
+# Ignition
+# ============================================================================
+# Built module files (keep only in releases)
+*.modl
+*.unsigned.modl
+
+# Ignition project files (if any)
+*.proj
+*.proj.json
+
+# ============================================================================
+# Python
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+*.egg-info/
+dist/
+*.egg
+
+# ============================================================================
+# Node / NPM (if using for web components)
+# ============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# Note: package-lock.json is NOT ignored - it's required for reproducible CI builds
+yarn.lock
+
+# ============================================================================
+# Logs
+# ============================================================================
+*.log
+logs/
+*.log.*
+
+# ============================================================================
+# Temporary files
+# ============================================================================
+temp/
+tmp/
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# ============================================================================
+# Test artifacts
+# ============================================================================
+screenshots/*.png
+!screenshots/README.md
+
+# ============================================================================
+# Database files
+# ============================================================================
+*.idb
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================================================
+# Module signing credentials and certificates (SECURITY)
+# ============================================================================
+gradle.properties
+sign.properties
+sign.props
+*.key
+*.pem
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.der
+
+# Public-only key material may still be committed if explicitly suffixed
+!*.public.key
+!*.pub.pem
+
+# ============================================================================
+# Environment and secrets (SECURITY)
+# ============================================================================
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.*.example
+!.env.*.template
+secrets.properties
+credentials.json
+*secret*
+*password*
+*apikey*
+
+# ============================================================================
+# Docker volumes and data
+# ============================================================================
+.docker/
+docker-compose.override.yml
+
+# ============================================================================
+# Claude Code specific
+# ============================================================================
+.claude/
+.claude/settings.local.json
+
+# NOTE: sign.props and gradle.properties with credentials must NOT be committed
+# Use sign.props.template or gradle.properties.template as reference
+
+# ============================================================================
+# Keep certain files
+# ============================================================================
+# Force include wrapper JAR
+!gradle/wrapper/gradle-wrapper.jar
+
+# Force include important docs
+!README.md
+!CLAUDE.md
+!LICENSE
+
+# Force include example configurations
+!*example*
+!*template*
+!*.example.*
+!*.template.*
+/openapi.json

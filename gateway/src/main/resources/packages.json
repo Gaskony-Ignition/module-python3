@@ -1,0 +1,87 @@
+{
+  "jedi": {
+    "version": "0.19.2",
+    "description": "Intelligent auto-completion for Python IDE",
+    "sizeMb": 1.6,
+    "wheels": [
+      "jedi-0.19.2-py2.py3-none-any.whl",
+      "parso-0.8.5-py2.py3-none-any.whl"
+    ],
+    "pipPackages": [
+      "jedi",
+      "parso"
+    ],
+    "importName": "jedi",
+    "requiredFor": [
+      "IDE auto-completion"
+    ]
+  },
+  "web": {
+    "version": "2.32.5",
+    "description": "HTTP library and dependencies for web/API calls",
+    "sizeMb": 4.5,
+    "wheels": [
+      "requests-2.31.0-py3-none-any.whl",
+      "urllib3-2.1.0-py3-none-any.whl",
+      "certifi-2023.11.17-py3-none-any.whl",
+      "charset_normalizer-3.3.2-py3-none-any.whl",
+      "idna-3.6-py3-none-any.whl"
+    ],
+    "pipPackages": [
+      "requests",
+      "urllib3",
+      "certifi",
+      "charset-normalizer",
+      "idna"
+    ],
+    "importName": "requests",
+    "requiredFor": [
+      "HTTP requests",
+      "REST API calls",
+      "Web scraping"
+    ]
+  },
+  "datascience": {
+    "version": "2.3.4",
+    "description": "Data science stack (numpy, pandas, matplotlib)",
+    "sizeMb": 85.0,
+    "wheels": [
+      "numpy-1.26.2-cp311-cp311-{platform}.whl",
+      "pandas-2.1.4-cp311-cp311-{platform}.whl",
+      "matplotlib-3.8.2-cp311-cp311-{platform}.whl",
+      "python_dateutil-2.8.2-py2.py3-none-any.whl",
+      "pytz-2023.3.post1-py2.py3-none-any.whl",
+      "six-1.16.0-py2.py3-none-any.whl",
+      "tzdata-2023.4-py2.py3-none-any.whl",
+      "contourpy-1.2.0-cp311-cp311-{platform}.whl",
+      "cycler-0.12.1-py3-none-any.whl",
+      "fonttools-4.47.0-cp311-cp311-{platform}.whl",
+      "kiwisolver-1.4.5-cp311-cp311-{platform}.whl",
+      "packaging-23.2-py3-none-any.whl",
+      "pillow-10.1.0-cp311-cp311-{platform}.whl",
+      "pyparsing-3.1.1-py3-none-any.whl"
+    ],
+    "pipPackages": [
+      "numpy",
+      "pandas",
+      "matplotlib",
+      "python-dateutil",
+      "pytz",
+      "six",
+      "tzdata",
+      "contourpy",
+      "cycler",
+      "fonttools",
+      "kiwisolver",
+      "packaging",
+      "pillow",
+      "pyparsing"
+    ],
+    "importName": "numpy",
+    "requiredFor": [
+      "Numerical computing",
+      "Data analysis",
+      "Plotting and visualization"
+    ]
+  }
+}

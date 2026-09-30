@@ -1,0 +1,27 @@
+/* Module Header - Full-width bar for module identity */
+
+.app-wrapper .module-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-default);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.app-wrapper .module-header__icon {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.app-wrapper .module-header__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}

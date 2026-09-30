@@ -1,0 +1,718 @@
+/* ==========================================================================
+   PackagesView - Scoped to .app-wrapper
+   ========================================================================== */
+
+.app-wrapper .packages-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ---- Page header ---- */
+.app-wrapper .packages-view__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.app-wrapper .packages-view__header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-wrapper .packages-view__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.app-wrapper .packages-view__subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.app-wrapper .packages-view__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+/* ---- Action buttons in header ---- */
+.app-wrapper .pkg-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-wrapper .pkg-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.app-wrapper .pkg-action-btn--primary {
+  background: var(--border-accent);
+  border-color: var(--accent-primary-border);
+  color: var(--accent-primary);
+}
+
+.app-wrapper .pkg-action-btn--primary:not(:disabled):hover {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .pkg-action-btn--secondary {
+  background: var(--bg-tertiary);
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+.app-wrapper .pkg-action-btn--secondary:not(:disabled):hover {
+  background: var(--bg-hover);
+  border-color: var(--border-light);
+  color: var(--text-primary);
+}
+
+.app-wrapper .pkg-action-btn__spinner {
+  animation: pkg-spin 0.75s linear infinite;
+}
+
+.app-wrapper .pkg-action-btn.spinning svg {
+  animation: pkg-spin 0.75s linear infinite;
+}
+
+@keyframes pkg-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Tab bar ---- */
+.app-wrapper .packages-view__tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.app-wrapper .packages-view__tab {
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.app-wrapper .packages-view__tab:hover {
+  color: var(--text-primary);
+}
+
+.app-wrapper .packages-view__tab--active {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+}
+
+/* ---- Search bar ---- */
+.app-wrapper .packages-view__search-bar {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.app-wrapper .packages-search-field {
+  position: relative;
+  max-width: 400px;
+}
+
+.app-wrapper .packages-search-field__icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.app-wrapper .packages-search-field__input {
+  width: 100%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  padding: 8px 12px 8px 32px;
+  outline: none;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.app-wrapper .packages-search-field__input::placeholder {
+  color: var(--text-muted);
+}
+
+.app-wrapper .packages-search-field__input:focus {
+  border-color: var(--border-focus);
+  background: var(--bg-secondary);
+}
+
+/* ---- Body / scroll area ---- */
+.app-wrapper .packages-view__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+
+/* ---- Loading / error / empty states ---- */
+.app-wrapper .packages-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.app-wrapper .packages-loading svg {
+  width: 20px;
+  height: 20px;
+  animation: pkg-spin 0.75s linear infinite;
+  color: var(--accent-primary);
+}
+
+.app-wrapper .packages-error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--accent-error-bg);
+  border: 1px solid var(--accent-error-border);
+  border-radius: var(--radius-md);
+  color: var(--accent-error);
+  font-size: 13px;
+  margin-bottom: var(--spacing-md);
+}
+
+.app-wrapper .packages-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: 48px;
+  color: var(--text-tertiary);
+  font-size: 14px;
+  text-align: center;
+}
+
+.app-wrapper .packages-empty svg {
+  width: 32px;
+  height: 32px;
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+/* ---- Package list ---- */
+.app-wrapper .packages-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* ---- Package card ---- */
+.app-wrapper .package-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  transition: border-color var(--transition-fast);
+}
+
+.app-wrapper .package-card:hover {
+  border-color: var(--border-light);
+}
+
+.app-wrapper .package-card--installed {
+  border-left: 2px solid var(--success);
+}
+
+/* Package info */
+.app-wrapper .package-card__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-wrapper .package-card__name-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.app-wrapper .package-card__name {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.app-wrapper .package-card__version {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.app-wrapper .package-card__description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 500px;
+}
+
+/* Package actions */
+.app-wrapper .package-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+/* Status badge */
+.app-wrapper .pkg-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.app-wrapper .pkg-badge--installed {
+  background: var(--accent-secondary-bg);
+  color: var(--success);
+  border: 1px solid var(--accent-secondary-border);
+}
+
+.app-wrapper .pkg-badge--available {
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  border: 1px solid var(--border-default);
+}
+
+.app-wrapper .pkg-badge--busy {
+  background: var(--accent-warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--accent-warning-border);
+}
+
+/* Action buttons in card */
+.app-wrapper .pkg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast), opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-wrapper .pkg-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.app-wrapper .pkg-btn--primary {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary-border);
+  color: var(--accent-primary);
+}
+
+.app-wrapper .pkg-btn--primary:not(:disabled):hover {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .pkg-btn--danger {
+  background: var(--accent-error-bg);
+  border-color: var(--accent-error-border);
+  color: var(--accent-error);
+}
+
+.app-wrapper .pkg-btn--danger:not(:disabled):hover {
+  background: var(--accent-error-bg);
+  border-color: var(--accent-error);
+}
+
+.app-wrapper .pkg-btn__spinner {
+  animation: pkg-spin 0.75s linear infinite;
+}
+
+/* ---- Modal backdrop ---- */
+.app-wrapper .pkg-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--modal-backdrop);
+  z-index: var(--z-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Modal box ---- */
+.app-wrapper .pkg-modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  width: 440px;
+  max-width: 95%;
+  z-index: var(--z-modal);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-wrapper .pkg-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.app-wrapper .pkg-modal__title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.app-wrapper .pkg-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.app-wrapper .pkg-modal__close:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.app-wrapper .pkg-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+}
+
+.app-wrapper .pkg-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.app-wrapper .pkg-modal__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.app-wrapper .pkg-modal__label-hint {
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.app-wrapper .pkg-modal__input {
+  width: 100%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.app-wrapper .pkg-modal__input::placeholder {
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+.app-wrapper .pkg-modal__input:focus {
+  border-color: var(--border-focus);
+}
+
+.app-wrapper .pkg-modal__preview {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  border-left: 2px solid var(--border-light);
+}
+
+.app-wrapper .pkg-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-xs);
+}
+
+.app-wrapper .pkg-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.app-wrapper .pkg-modal__btn--cancel {
+  background: var(--bg-tertiary);
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+.app-wrapper .pkg-modal__btn--cancel:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-light);
+  color: var(--text-primary);
+}
+
+.app-wrapper .pkg-modal__btn--install {
+  background: var(--border-accent);
+  border-color: var(--accent-primary-border);
+  color: var(--accent-primary);
+}
+
+.app-wrapper .pkg-modal__btn--install:not(:disabled):hover {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .pkg-modal__btn--install:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Modal: input row with inline status icon ---- */
+.app-wrapper .pkg-modal__input-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.app-wrapper .pkg-modal__input-row .pkg-modal__input {
+  padding-right: 36px;
+}
+
+.app-wrapper .pkg-modal__pypi-status {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.app-wrapper .pkg-modal__pypi-status--checking {
+  color: var(--text-muted);
+}
+
+.app-wrapper .pkg-modal__pypi-status--checking svg {
+  animation: pkg-spin 0.75s linear infinite;
+}
+
+.app-wrapper .pkg-modal__pypi-status--found {
+  color: var(--success);
+}
+
+.app-wrapper .pkg-modal__pypi-status--notfound {
+  color: var(--accent-error);
+}
+
+/* ---- Modal: PyPI info block ---- */
+.app-wrapper .pkg-modal__pypi-info {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--accent-primary-bg);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.app-wrapper .pkg-modal__pypi-info-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.app-wrapper .pkg-modal__pypi-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.app-wrapper .pkg-modal__pypi-latest-btn {
+  margin-left: auto;
+  background: var(--accent-primary-bg);
+  border: 1px solid var(--accent-primary-border);
+  border-radius: var(--radius-sm);
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.app-wrapper .pkg-modal__pypi-latest-btn:hover {
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+}
+
+.app-wrapper .pkg-modal__pypi-summary {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.app-wrapper .pkg-modal__pypi-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.app-wrapper .pkg-modal__pypi-meta-item {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.app-wrapper .pkg-modal__pypi-meta-item--muted {
+  color: var(--text-muted);
+}
+
+/* ---- Modal: package not found notice ---- */
+.app-wrapper .pkg-modal__pypi-notfound {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--accent-error-bg);
+  border: 1px solid var(--accent-error-bg);
+  border-radius: var(--radius-md);
+  padding: 7px 10px;
+}
+
+.app-wrapper .pkg-modal__pypi-notfound svg {
+  color: var(--accent-error);
+  flex-shrink: 0;
+}
+
+/* ---- PyPI source badge (shared: modal + card) ---- */
+.app-wrapper .pkg-badge--pypi {
+  background: var(--accent-primary-bg);
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-primary-border);
+}
+
+/* ---- Package card: author / homepage meta row ---- */
+.app-wrapper .package-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.app-wrapper .package-card__author {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.app-wrapper .package-card__homepage {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: var(--accent-primary);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.app-wrapper .package-card__homepage:hover {
+  opacity: 1;
+  text-decoration: underline;
+}

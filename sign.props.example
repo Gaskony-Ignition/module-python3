@@ -1,0 +1,17 @@
+# Module Signing Configuration Template
+# Copy this file to sign.props and update with your passwords
+
+# IMPORTANT: Never commit sign.props with real passwords to public repositories
+# For this development module, sign.props is included for convenience
+
+# Keystore file (contains private key)
+key.file=keystore.jks
+key.pass=YOUR_KEYSTORE_PASSWORD_HERE
+
+# Certificate file (public certificate)
+cert.file=certificate.der
+cert.alias=gaskony
+cert.pass=YOUR_CERTIFICATE_PASSWORD_HERE
+
+# To generate new self-signed certificates:
+# Run: ./scripts/generate-signing-certs.sh
