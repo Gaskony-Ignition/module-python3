@@ -2,7 +2,7 @@
 
 Real Python 3 — `requests`, `pandas`, `numpy`, and the rest of PyPI — callable from any Ignition 8.3 gateway as if it were a native scripting library.
 
-> **Not an Inductive Automation product, and not supported by Inductive Automation.** Personal work, largely built with AI tools and tested for one purpose on one gateway. Take the ideas; fork and review it before it goes near production. [NOTICE.md](NOTICE.md) says more.
+> **Not an Inductive Automation product, and not supported by Inductive Automation.** Independent work, largely built with AI tools and tested for one purpose on one gateway. Take the ideas; fork and review it before it goes near production. [NOTICE.md](NOTICE.md) says more.
 
 ![Version](https://img.shields.io/badge/version-4.6.4-blue.svg)
 [![Ignition](https://img.shields.io/badge/Ignition-8.3+-red.svg)](https://inductiveautomation.com/)
