@@ -1,8 +1,8 @@
 # CLAUDE.md — Python 3 Integration Module
 
-Module-specific facts only. Shared standards live in `/modules/CLAUDE.md`; procedures
+Module-specific facts only. Shared standards live in `../CLAUDE.md`; procedures
 (building, versioning, testing, releasing, security, SDK patterns) live in the shared
-skills under `/modules/.claude/skills/` — load the relevant skill before those tasks.
+skills under `../.claude/skills/` — load the relevant skill before those tasks.
 
 ## What this module is
 
