@@ -36,13 +36,13 @@ release decision.
 ![Script library tree with a Demos folder of five scripts and a Reports folder of two, ProductionStats selected and its full source and description visible](docs/images/script-library.png)
 *Scripts are organised into folders and are real files on disk — select one to see its source, description and last-modified time.*
 
-![Diagnostics view showing process pool utilisation, execution metrics for 57 real runs at a 23 ms average with a 0% error rate, and a live module log of recent calls](docs/images/diagnostics-view.png)
+![Diagnostics view showing process pool utilisation, execution metrics for 49 real runs (47 successful, 2 failed from scripts that raised, a 4.08% error rate) at a 36 ms average with a 380 ms max latency, and a live module log of recent calls](docs/images/diagnostics-view.png)
 *Diagnostics: pool utilisation, execution counts and latency, and the module's own log stream — including the per-call audit trail (mode, code hash, duration) — filterable by level.*
 
 ![Python Versions view listing Python 3.9 through 3.13, with 3.11 (the default, showing its install path), 3.12 and 3.13 installed and the rest available to install](docs/images/python-versions-view.png)
 *Multiple Python versions can be installed side by side; scripts pick which one they run against.*
 
-![Gateway dashboard showing module health as Healthy, a pool of three processes, the running Python version and real execution counts — 55 runs at a 23 ms average with no errors](docs/images/gateway-dashboard.png)
+![Gateway dashboard showing module health as Healthy, a pool of three processes, the running Python version and real execution counts — 48 runs at a 36 ms average and a 4.2% error rate from two scripts that raised](docs/images/gateway-dashboard.png)
 *The landing dashboard: module health, process pool, the running Python version and execution counts at a glance.*
 
 ![Designer Script Console with the editor and Output side by side: the ProductionStats demo script on the left, and on the right run #1 with its printed tables followed by the returned result dict](docs/images/designer-script-editor.png)
@@ -64,7 +64,7 @@ alongside the rest of the built-in tools.*
 keyword list — it resolves real members of whatever's actually imported,
 with descriptions, in a proper editor popup (Ctrl+Space).*
 
-![The Designer's Diagnostics dialog showing Performance Diagnostics (64 executions, 100% success rate, RAM/CPU, health score 100) and a live, filterable Gateway Logs stream](docs/images/designer-diagnostics.png)
+![The Designer's Diagnostics dialog showing Performance Diagnostics (61 executions, a 96.7% success rate after two scripts that raised, RAM/CPU, health score 100) and a live, filterable Gateway Logs stream](docs/images/designer-diagnostics.png)
 *A read-only Diagnostics view reachable from the Designer: pool health and
 performance stats plus a live tail of the Gateway's own log, filterable by
 level — no need to leave the Designer to see what the module is doing.*
