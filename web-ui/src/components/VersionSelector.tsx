@@ -2,15 +2,11 @@ import { useState, useEffect } from 'react'
 import { Code2 } from 'lucide-react'
 import { apiGet } from '../utils/api'
 
-interface DistributionEntry {
-  version?: string
-  installed?: boolean
-  [key: string]: unknown
-}
-
-interface DistributionsResponse {
-  distributions?: DistributionEntry[]
-  [key: string]: unknown
+// /versions lists the versions with a running pool, the bundled default included;
+// /distributions marks only add-on installs as installed.
+interface VersionsResponse {
+  versions?: string[]
+  default?: string
 }
 
 interface Props {
@@ -28,21 +24,13 @@ function VersionSelector({ gatewayUrl: _gatewayUrl, selectedVersion, onVersionCh
 
     const load = async () => {
       try {
-        const data = await apiGet<DistributionsResponse>('/api/v1/distributions', 6000)
-
-        let list: string[] = []
-        if (Array.isArray(data?.distributions)) {
-          list = data.distributions
-            .filter((d: DistributionEntry) => d.installed === true)
-            .map((d: DistributionEntry) => d.version ?? String(d))
-            .filter(Boolean)
-        }
+        const data = await apiGet<VersionsResponse>('/api/v1/versions', 6000)
+        const list = Array.isArray(data?.versions) ? data.versions.filter(Boolean) : []
 
         if (!cancelled) {
           setVersions(list)
-          // Auto-select first if nothing selected yet
           if (list.length > 0 && !selectedVersion) {
-            onVersionChange(list[0])
+            onVersionChange(data?.default && list.includes(data.default) ? data.default : list[0])
           }
         }
       } catch {

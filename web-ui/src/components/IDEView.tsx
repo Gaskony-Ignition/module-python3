@@ -145,12 +145,10 @@ function IDEView({ gatewayUrl }: Props) {
       }>('/api/v1/exec', body, 60_000)
 
       if (data.success) {
-        const resultText = data.result !== undefined
-          ? String(data.result)
-          : data.output !== undefined
-            ? String(data.output)
-            : ''
-        setOutput(resultText)
+        // output is what the script printed; the gateway omits it when it is the result itself.
+        const printed = typeof data.output === 'string' ? data.output : ''
+        const resultText = data.result !== undefined && data.result !== null ? String(data.result) : ''
+        setOutput(printed + resultText)
         const timing = data.executionTimeMs ?? data.executionTime ?? null
         setExecutionTime(typeof timing === 'number' ? timing : null)
       } else {

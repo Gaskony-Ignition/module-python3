@@ -185,15 +185,17 @@ function DiagnosticsView({ gatewayUrl }: Props) {
     : null
 
   // --- Metrics normalization ---
+  // /metrics answers in snake_case.
+  const total = (metrics?.total_executions as number) ?? 0
+  const failed = (metrics?.failed_executions as number) ?? 0
   const normalizedMetrics = metrics
     ? {
-        totalExecutions: (metrics.totalExecutions as number) ?? 0,
-        successfulExecutions: (metrics.successfulExecutions as number) ?? 0,
-        failedExecutions: (metrics.failedExecutions as number) ?? 0,
-        averageLatencyMs:
-          (metrics.averageLatencyMs as number) ?? (metrics.avgLatencyMs as number) ?? 0,
-        maxLatencyMs: (metrics.maxLatencyMs as number) ?? 0,
-        errorRate: (metrics.errorRate as number) ?? 0,
+        totalExecutions: total,
+        successfulExecutions: (metrics.successful_executions as number) ?? 0,
+        failedExecutions: failed,
+        averageLatencyMs: (metrics.average_execution_time_ms as number) ?? 0,
+        maxLatencyMs: (metrics.max_execution_time_ms as number) ?? 0,
+        errorRate: total > 0 ? (failed / total) * 100 : 0,
       }
     : null
 

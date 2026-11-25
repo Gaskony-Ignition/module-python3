@@ -38,6 +38,18 @@ describe('IDEView', () => {
     })
   })
 
+  it('shows what the script printed above its result', async () => {
+    mockGateway({
+      ...defaultRoutes(),
+      '/api/v1/exec': { success: true, result: '4', output: 'checking pumps\n' },
+    })
+    render(<IDEView gatewayUrl={GATEWAY_URL} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Run script' }))
+
+    expect(await screen.findByText(/checking pumps\s+4/)).toBeInTheDocument()
+  })
+
   it('lists saved scripts in the Load Script menu', async () => {
     const fetchMock = mockGateway(defaultRoutes())
     render(<IDEView gatewayUrl={GATEWAY_URL} />)

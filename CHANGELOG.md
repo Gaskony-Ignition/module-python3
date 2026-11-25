@@ -24,6 +24,17 @@ All notable changes to the Python 3 Integration module for Ignition 8.3+.
 - **Web UI dashboard:** an unreachable gateway now shows the error message instead of an empty
   "loaded" dashboard.
 - **Web UI Versions:** the install path is shown again; it comes from `/api/v1/versions`.
+- **Web UI Diagnostics: Execution Metrics always read 0**, for the same camelCase/snake_case
+  mismatch the dashboard had.
+- **Web IDE: the version picker left out the bundled default (3.11)** and selected an add-on
+  version, which falls back to the default until its pool starts. It now lists the versions with
+  a running pool and selects the default.
+- **Web IDE and Designer console: a script that set `result` lost everything it printed.**
+  `/exec` and the Designer RPC now return the printed output next to the result, and both
+  consoles show it above the result. `system.python3.exec` still returns only the result.
+- **Designer console:** the "Run a script to see output here" placeholder no longer stays under
+  the first run's output, and a script with neither `result` nor output shows "(no output)"
+  instead of a parse error.
 
 ## [4.6.5] - 2026-11-25
 ### Changed

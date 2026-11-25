@@ -1,5 +1,6 @@
 package com.gaskony.python3.gateway;
 
+import com.gaskony.python3.JsonFields;
 import com.gaskony.python3.Python3Rpc;
 import com.inductiveautomation.ignition.common.gson.JsonArray;
 import com.inductiveautomation.ignition.common.gson.JsonObject;
@@ -160,9 +161,10 @@ public class Python3RpcHandler implements Python3Rpc {
             // via Python3AuditLogger. The runtime scripting opt-out gate is deliberately NOT
             // enforced here: an authenticated Designer session
             // must always be able to develop/test, independent of that gateway-wide opt-out.
-            Object result = sm.execTrusted(code, variables, pythonVersion);
+            Python3Result result = sm.execTrusted(code, variables, pythonVersion);
             response.addProperty("success", true);
-            response.addProperty("result", result != null ? result.toString() : null);
+            response.addProperty("result", result.getResult() != null ? result.getResult().toString() : null);
+            response.addProperty(JsonFields.OUTPUT, result.printedOutput());
         } catch (Exception e) {
             response.addProperty("success", false);
             response.addProperty("error", e.getMessage());

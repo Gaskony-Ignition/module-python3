@@ -20,6 +20,7 @@ package com.gaskony.python3.designer;
  * @param error the error message (null if succeeded)
  * @param executionTimeMs execution time in milliseconds (optional)
  * @param timestamp execution timestamp (optional)
+ * @param output what the script printed, when it differs from the result (optional)
  *
  * @since v1.0.0 (as class)
  * @since v2.10.0 (as record)
@@ -29,7 +30,8 @@ public record ExecutionResult(
     String result,
     String error,
     Long executionTimeMs,
-    Long timestamp
+    Long timestamp,
+    String output
 ) {
     /**
      * Compact constructor with validation.
@@ -47,7 +49,11 @@ public record ExecutionResult(
      * @param timestamp execution timestamp (optional)
      */
     public ExecutionResult(boolean success, String result, Long executionTimeMs, Long timestamp) {
-        this(success, result, null, executionTimeMs, timestamp);
+        this(success, result, null, executionTimeMs, timestamp, null);
+    }
+
+    public ExecutionResult(boolean success, String result, String error, Long executionTimeMs, Long timestamp) {
+        this(success, result, error, executionTimeMs, timestamp, null);
     }
 
     /**
@@ -57,7 +63,7 @@ public record ExecutionResult(
      * @param error the error message
      */
     public ExecutionResult(boolean success, String error) {
-        this(success, null, error, null, null);
+        this(success, null, error, null, null, null);
     }
 
     // Legacy getter methods for backward compatibility with existing code

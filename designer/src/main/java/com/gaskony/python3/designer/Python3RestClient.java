@@ -457,17 +457,19 @@ public class Python3RestClient {
             JsonObject json = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
             boolean success = json.has(JsonFields.SUCCESS) && json.get(JsonFields.SUCCESS).getAsBoolean();
-            String result = json.has(JsonFields.RESULT) ? json.get(JsonFields.RESULT).getAsString() : null;
+            String result = json.has(JsonFields.RESULT) && !json.get(JsonFields.RESULT).isJsonNull() ? json.get(JsonFields.RESULT).getAsString() : null;
             String error = json.has(JsonFields.ERROR) ? json.get(JsonFields.ERROR).getAsString() : null;
             Long executionTimeMs = json.has(JsonFields.EXECUTION_TIME_MS) ? json.get(JsonFields.EXECUTION_TIME_MS).getAsLong() : null;
             Long timestamp = json.has(JsonFields.TIMESTAMP) ? json.get(JsonFields.TIMESTAMP).getAsLong() : null;
+            String output = json.has(JsonFields.OUTPUT) && !json.get(JsonFields.OUTPUT).isJsonNull()
+                ? json.get(JsonFields.OUTPUT).getAsString() : null;
 
             logger.info("Parsed execution result: success={}, hasResult={}, hasError={}", success, result != null, error != null);
             if (error != null) {
                 logger.warn("Execution error: {}", error);
             }
 
-            return new ExecutionResult(success, result, error, executionTimeMs, timestamp);
+            return new ExecutionResult(success, result, error, executionTimeMs, timestamp, output);
 
         } catch (Exception e) {
             logger.error("Failed to parse execution result from JSON: {}", jsonResponse, e);

@@ -93,13 +93,16 @@ class ExecutionHandlersTest {
         when(httpReq.getReader()).thenReturn(
             new java.io.BufferedReader(new java.io.StringReader(body))
         );
-        when(scriptModule.exec(any(), any(), any())).thenReturn("None");
+        when(scriptModule.execDetailed(any(), any(), any(), any()))
+            .thenReturn(new Python3Result(true, 4, null, null, "checking\n"));
 
         JsonObject result = handlers.handleExec(req, res);
 
         assertThat(result).isNotNull();
         assertThat(result.get("success").getAsBoolean()).isTrue();
-        verify(scriptModule).exec(eq("result = 2 + 2"), any(), any());
+        assertThat(result.get("result").getAsString()).isEqualTo("4");
+        assertThat(result.get("output").getAsString()).isEqualTo("checking\n");
+        verify(scriptModule).execDetailed(eq("result = 2 + 2"), any(), any(), any());
     }
 
     @Test
@@ -124,7 +127,7 @@ class ExecutionHandlersTest {
         when(httpReq.getReader()).thenReturn(
             new java.io.BufferedReader(new java.io.StringReader(body))
         );
-        when(scriptModule.exec(any(), any(), any())).thenThrow(new RuntimeException("Python error"));
+        when(scriptModule.execDetailed(any(), any(), any(), any())).thenThrow(new RuntimeException("Python error"));
 
         JsonObject result = handlers.handleExec(req, res);
 

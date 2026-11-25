@@ -435,7 +435,9 @@ public class Python3Executor {
 
                 if (success) {
                     Object result = GSON.fromJson(response.get("result"), Object.class);
-                    return new Python3Result(true, result, null, null);
+                    String output = response.has("output") && !response.get("output").isJsonNull()
+                        ? response.get("output").getAsString() : null;
+                    return new Python3Result(true, result, null, null, output);
                 } else {
                     String error = response.has("error") ? response.get("error").getAsString() : "Unknown error";
                     String traceback = response.has("traceback") ? response.get("traceback").getAsString() : null;

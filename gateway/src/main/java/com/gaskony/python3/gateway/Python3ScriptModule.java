@@ -203,7 +203,20 @@ public class Python3ScriptModule implements Python3RpcFunctions {
     public Object exec(String code, Map<String, Object> variables, String securityMode) throws Exception {
         // Runtime scripting opt-out gate at the Jython entry-point (allow-by-default since v4.3.0).
         requireAdministrator("exec");
-        return execCore(code, variables, securityMode);
+        return execCore(code, variables, securityMode).getResult();
+    }
+
+    /**
+     * Role-gated exec for the REST API: returns the whole result, printed output included,
+     * where the scripting API returns only the value.
+     */
+    Python3Result execDetailed(String code, Map<String, Object> variables, String securityMode,
+                               String pythonVersion) throws Exception {
+        requireAdministrator("exec");
+        if (pythonVersion == null || pythonVersion.isBlank()) {
+            return execCore(code, variables, securityMode);
+        }
+        return execCoreVersioned(code, variables, securityMode, pythonVersion);
     }
 
     /**
@@ -214,7 +227,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      *
      * @since v4.3.0 (Designer RPC path must not depend on the scripting opt-out; charter &sect;2, 2026-07-02)
      */
-    private Object execCore(String code, Map<String, Object> variables, String securityMode) throws Exception {
+    private Python3Result execCore(String code, Map<String, Object> variables, String securityMode) throws Exception {
         // Defensive null checks
         if (code == null) {
             throw new IllegalArgumentException("code parameter cannot be null");
@@ -251,7 +264,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
             if (result.isSuccess()) {
                 logger.debug("Python code executed successfully");
                 success = true;
-                return result.getResult();
+                return result;
             } else {
                 String errorMsg = "Python error: " + result.getError();
                 if (result.getTraceback() != null) {
@@ -296,7 +309,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
         // Role gate (mirrors public exec(); private callers can only reach
         // here via the public overload, but the duplicate gate is defence-in-depth).
         requireAdministrator("exec");
-        return execCoreVersioned(code, variables, securityMode, pythonVersion);
+        return execCoreVersioned(code, variables, securityMode, pythonVersion).getResult();
     }
 
     /**
@@ -306,7 +319,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      *
      * @since v4.3.0
      */
-    private Object execCoreVersioned(String code, Map<String, Object> variables,
+    private Python3Result execCoreVersioned(String code, Map<String, Object> variables,
                                      String securityMode, String pythonVersion) throws Exception {
         if (code == null) {
             throw new IllegalArgumentException("code parameter cannot be null");
@@ -339,7 +352,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
 
             if (result.isSuccess()) {
                 success = true;
-                return result.getResult();
+                return result;
             } else {
                 String errorMsg = "Python error: " + result.getError();
                 if (result.getTraceback() != null) {
@@ -384,7 +397,7 @@ public class Python3ScriptModule implements Python3RpcFunctions {
      * @return Result of execution
      * @since v4.3.0
      */
-    Object execTrusted(String code, Map<String, Object> variables, String pythonVersion) throws Exception {
+    Python3Result execTrusted(String code, Map<String, Object> variables, String pythonVersion) throws Exception {
         if (pythonVersion == null || pythonVersion.isBlank()) {
             return execCore(code, variables, DEFAULT_SECURITY_MODE);
         }

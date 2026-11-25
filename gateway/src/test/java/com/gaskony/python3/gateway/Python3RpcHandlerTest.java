@@ -166,7 +166,7 @@ class Python3RpcHandlerTest {
     void exec_success_returnsResult() throws Exception {
         // Handler calls the trusted (ungated) core directly (v4.3.0): the Designer
         // RPC path does not depend on the runtime scripting opt-out.
-        when(scriptModule.execTrusted(eq("2+2"), anyMap(), eq(""))).thenReturn("4");
+        when(scriptModule.execTrusted(eq("2+2"), anyMap(), eq(""))).thenReturn(new Python3Result(true, "4", null, null));
 
         JsonObject json = parse(handler.exec("2+2", "{}", ""));
 
@@ -176,12 +176,13 @@ class Python3RpcHandlerTest {
 
     @Test
     void exec_withVersion_usesVersionedOverload() throws Exception {
-        when(scriptModule.execTrusted(eq("x=1"), anyMap(), eq("3.11"))).thenReturn("ok");
+        when(scriptModule.execTrusted(eq("x=1"), anyMap(), eq("3.11"))).thenReturn(new Python3Result(true, "ok", null, null, "line 1\n"));
 
         JsonObject json = parse(handler.exec("x=1", "{\"a\":1}", "3.11"));
 
         assertThat(json.get("success").getAsBoolean()).isTrue();
         assertThat(json.get("result").getAsString()).isEqualTo("ok");
+        assertThat(json.get("output").getAsString()).isEqualTo("line 1\n");
         verify(scriptModule).execTrusted(eq("x=1"), anyMap(), eq("3.11"));
     }
 
@@ -209,7 +210,7 @@ class Python3RpcHandlerTest {
         String previous = System.getProperty(prop);
         System.setProperty(prop, "false");
         try {
-            when(scriptModule.execTrusted(eq("2+2"), anyMap(), eq(""))).thenReturn("4");
+            when(scriptModule.execTrusted(eq("2+2"), anyMap(), eq(""))).thenReturn(new Python3Result(true, "4", null, null));
 
             JsonObject json = parse(handler.exec("2+2", "{}", ""));
 

@@ -88,4 +88,16 @@ class Python3ResultTest {
         Python3Result failure = new Python3Result(false, null, "error", "trace");
         assertThat(failure.toString()).contains("success=false");
     }
+
+    @Test
+    void printedOutputIsKeptAlongsideAResult() {
+        assertThat(new Python3Result(true, 4.0, null, null, "hello\n").printedOutput()).isEqualTo("hello\n");
+    }
+
+    @Test
+    void printedOutputIsDroppedWhenItIsTheResult() {
+        // No `result` variable: the bridge returns the printed text as the result too.
+        assertThat(new Python3Result(true, "hello\n", null, null, "hello\n").printedOutput()).isNull();
+        assertThat(new Python3Result(true, 4.0, null, null, null).printedOutput()).isNull();
+    }
 }

@@ -472,10 +472,15 @@ public class Python3ScriptConsole extends JPanel {
                     if (result.isSuccess()) {
                         block.add(new OutputSegment(header + "  ·  completed in "
                                 + timeMs + "ms\n", outputSuccessColor));
+                        if (result.output() != null) {
+                            block.add(new OutputSegment(result.output(), outputFgPrimary));
+                        }
                         String output = result.getResult() != null ? result.getResult() : "";
-                        block.add(output.isEmpty()
-                                ? new OutputSegment("(no output)\n", outputFgSecondary)
-                                : new OutputSegment(output + "\n", outputFgPrimary));
+                        if (!output.isEmpty()) {
+                            block.add(new OutputSegment(output + "\n", outputFgPrimary));
+                        } else if (result.output() == null) {
+                            block.add(new OutputSegment("(no output)\n", outputFgSecondary));
+                        }
                         statusBar.setStatus("Executed in " + timeMs + "ms",
                                 ModernStatusBar.MessageType.SUCCESS);
                     } else {
@@ -517,6 +522,10 @@ public class Python3ScriptConsole extends JPanel {
      * divider separates this block from older output.
      */
     private void prependBlock(List<OutputSegment> segments) {
+        if (runCounter == 1) {
+            // Before the first run the pane holds only the placeholder or "Output cleared."
+            clearOutputPane();
+        }
         StyledDocument doc = outputPane.getStyledDocument();
         int offset = 0;
         try {

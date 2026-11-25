@@ -4,6 +4,9 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import DashboardView from './DashboardView'
 import VersionsView from './VersionsView'
+import DiagnosticsView from './DiagnosticsView'
+import VersionSelector from './VersionSelector'
+import { mockGateway, defaultRoutes } from '../test/gatewayMock'
 
 const json = (body: unknown, status = 200) =>
   Promise.resolve(new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } }))
@@ -52,5 +55,36 @@ describe('VersionsView', () => {
     }))
     render(<VersionsView gatewayUrl="/data/python3integration" showToast={() => {}} />)
     expect(await screen.findByText('data/python3-integration/python/python/bin/python3.11')).toBeInTheDocument()
+  })
+})
+
+describe('DiagnosticsView', () => {
+  it('shows the execution metrics /metrics reports in snake_case', async () => {
+    vi.stubGlobal('fetch', routeFetch({
+      '/api/v1/metrics': { total_executions: 64, successful_executions: 60, failed_executions: 4,
+        average_execution_time_ms: 20, max_execution_time_ms: 95 },
+    }))
+    render(<DiagnosticsView gatewayUrl="/data/python3integration" />)
+    expect(await screen.findByText('64')).toBeInTheDocument()
+    expect(screen.getByText('6.25%')).toBeInTheDocument()
+  })
+})
+
+describe('VersionSelector', () => {
+  it('offers only versions with a running pool, the bundled default included', async () => {
+    // As on a live gateway: /distributions does not mark the bundled default installed.
+    mockGateway({
+      ...defaultRoutes(),
+      '/api/v1/versions': { versions: ['3.11'], default: '3.11', count: 1 },
+      '/api/v1/distributions': { distributions: [
+        { version: '3.11', installed: false, available: true },
+        { version: '3.12', installed: true, available: true },
+      ] },
+    })
+    const onVersionChange = vi.fn()
+    render(<VersionSelector gatewayUrl="" selectedVersion="" onVersionChange={onVersionChange} />)
+    expect(await screen.findByRole('option', { name: '3.11' })).toBeInTheDocument()
+    expect(screen.queryByRole('option', { name: '3.12' })).not.toBeInTheDocument()
+    expect(onVersionChange).toHaveBeenCalledWith('3.11')
   })
 })

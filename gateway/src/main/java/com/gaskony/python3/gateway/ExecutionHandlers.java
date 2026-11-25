@@ -1,5 +1,6 @@
 package com.gaskony.python3.gateway;
 
+import com.gaskony.python3.JsonFields;
 import com.inductiveautomation.ignition.common.gson.JsonArray;
 import com.inductiveautomation.ignition.common.gson.JsonElement;
 import com.inductiveautomation.ignition.common.gson.JsonObject;
@@ -237,16 +238,12 @@ class ExecutionHandlers {
 
             // Structured per-execution audit (user/IP/mode/codeHash/outcome) is emitted by
             // Python3ScriptModule.exec() via Python3AuditLogger — see that class's finally block.
-            Object result;
-            if (pythonVersion != null) {
-                result = ctx.scriptModule.exec(code, variables, securityMode.getValue(), pythonVersion);
-            } else {
-                result = ctx.scriptModule.exec(code, variables, securityMode.getValue());
-            }
+            Python3Result result = ctx.scriptModule.execDetailed(code, variables, securityMode.getValue(), pythonVersion);
 
             JsonObject response = new JsonObject();
             response.addProperty("success", true);
-            response.addProperty("result", result != null ? result.toString() : null);
+            response.addProperty("result", result.getResult() != null ? result.getResult().toString() : null);
+            response.addProperty(JsonFields.OUTPUT, result.printedOutput());
             return response;
         });
     }
