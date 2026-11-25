@@ -30,14 +30,14 @@ release decision.
 
 ## What it looks like
 
-![The Gateway Web UI IDE running a pandas/numpy script over 30 days of synthetic production-line data, with its returned summary dict visible in the Output pane](docs/images/ide-script-editor.png)
-*The browser-based IDE: real code, run against a real warm Python 3 process, with the script's own returned result shown inline. No Designer required.*
+![The Gateway Web UI IDE with Python 3.11 selected, running a pandas/numpy script over 30 days of synthetic production-line data; the Output pane shows the printed rolling-average and correlation tables, then the returned summary dict](docs/images/ide-script-editor.png)
+*The browser-based IDE: real code, run against a real warm Python 3 process. What the script prints appears above the result it returns. No Designer required.*
 
 ![Script library tree with a Demos folder of five scripts and a Reports folder of two, ProductionStats selected and its full source and description visible](docs/images/script-library.png)
 *Scripts are organised into folders and are real files on disk — select one to see its source, description and last-modified time.*
 
-![Diagnostics view showing process pool utilisation and a live module log of real recent calls, each audit entry carrying its mode, code hash and duration](docs/images/diagnostics-view.png)
-*Diagnostics: pool utilisation and the module's own log stream — including the per-call audit trail (mode, code hash, duration) — filterable by level.*
+![Diagnostics view showing process pool utilisation, execution metrics for 57 real runs at a 23 ms average with a 0% error rate, and a live module log of recent calls](docs/images/diagnostics-view.png)
+*Diagnostics: pool utilisation, execution counts and latency, and the module's own log stream — including the per-call audit trail (mode, code hash, duration) — filterable by level.*
 
 ![Python Versions view listing Python 3.9 through 3.13, with 3.11 (the default, showing its install path), 3.12 and 3.13 installed and the rest available to install](docs/images/python-versions-view.png)
 *Multiple Python versions can be installed side by side; scripts pick which one they run against.*
@@ -45,10 +45,10 @@ release decision.
 ![Gateway dashboard showing module health as Healthy, a pool of three processes, the running Python version and real execution counts — 55 runs at a 23 ms average with no errors](docs/images/gateway-dashboard.png)
 *The landing dashboard: module health, process pool, the running Python version and execution counts at a glance.*
 
-![Designer Script Console showing the ProductionStats demo script with a completed run and result](docs/images/designer-script-editor.png)
+![Designer Script Console with the editor and Output side by side: the ProductionStats demo script on the left, and on the right run #1 with its printed tables followed by the returned result dict](docs/images/designer-script-editor.png)
 *The Designer-scope Script Console: the `ProductionStats` demo script,
 syntax-highlighted, run against the same warm process pool as the Web UI — the
-run completed and returned its result dict, shown in the Output pane.*
+Output pane shows what the run printed, then the result dict it returned.*
 
 ![Project Browser showing the module's own "Python 3 Scripts" tree node with its Demos and Reports folders expanded, and the module's own right-click context menu open over it showing New Script, New Folder, Refresh and Open Script Console — the menu covers several of the script names beneath it](docs/images/designer-project-browser-tree.png)
 *Python 3 Scripts is a first-class node in the Designer's Project Browser, not
