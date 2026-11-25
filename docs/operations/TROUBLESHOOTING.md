@@ -93,7 +93,7 @@ curl http://localhost:8088/data/python3integration/api/v1/health
 chmod +x gradlew
 
 # If wrapper is missing, regenerate it
-gradle wrapper --gradle-version 8.10.2
+gradle wrapper --gradle-version 9.9.2
 ```
 
 ---

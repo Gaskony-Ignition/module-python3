@@ -15,7 +15,7 @@ Before you begin, ensure you have:
 - **Python 3.9, 3.11, or 3.12** - Runtime for Python execution
 - **Ignition 8.3+** - Ignition Gateway installation
 - **Git** - For cloning the repository
-- **Gradle 8.x** - Build tool (included via wrapper)
+- **Gradle 9.x** - Build tool (included via wrapper; 9.9.2)
 
 ### System Requirements
 - **OS:** Windows, Linux, or macOS

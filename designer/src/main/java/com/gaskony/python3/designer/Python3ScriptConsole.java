@@ -4,6 +4,7 @@ import com.inductiveautomation.ignition.designer.model.DesignerContext;
 import com.gaskony.python3.designer.managers.ThemeManager;
 import com.gaskony.python3.designer.ui.FindReplaceDialog;
 import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.DescWindowVisibility;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -350,7 +351,7 @@ public class Python3ScriptConsole extends JPanel {
             // pause would stutter the editor now that completions actually
             // reach Jedi over RPC.
             autoCompletion.setAutoActivationEnabled(false);
-            autoCompletion.setShowDescWindow(true);
+            autoCompletion.setDescWindowVisibility(DescWindowVisibility.ALWAYS);
             autoCompletion.install(codeEditor);
         } catch (Exception e) {
             logger.warn("Failed to setup autocomplete: {}", e.getMessage());

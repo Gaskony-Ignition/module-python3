@@ -197,7 +197,7 @@ public class DesignerHook extends AbstractDesignerModuleHook {
         } catch (IOException e) {
             logger.warn("Failed to load version.properties, using fallback version", e);
         }
-        return "4.6.4"; // MODULE_VERSION_FALLBACK — kept current by the syncVersion Gradle task
+        return "4.6.5"; // MODULE_VERSION_FALLBACK — kept current by the syncVersion Gradle task
     }
 
     /**

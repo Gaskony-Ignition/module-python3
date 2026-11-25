@@ -31,7 +31,7 @@ package-install surface (`docs/PROJECT_CHARTER.md` §3).
 
 ## Default Bundled Packages
 
-**✅ Jedi (v0.19.2) - Always Bundled**
+**✅ Jedi (v0.20.1) - Always Bundled**
 - **Size**: ~1.6 MB
 - **Purpose**: IDE autocomplete functionality
 - **Auto-installed**: Yes, on Gateway startup

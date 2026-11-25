@@ -7,6 +7,48 @@ All notable changes to the Python 3 Integration module for Ignition 8.3+.
 
 ---
 
+## [4.6.5] - 2026-11-25
+### Changed
+- Dependencies upgraded to latest stable:
+  - **Build:** Gradle wrapper 8.10.2 → 9.9.2; SpotBugs plugin 6.4.8 → 6.5.13; OWASP
+    dependency-check plugin 12.2.0 → 13.0.0; Checkstyle 10.26.1 → 14.4.0 (runs on a
+    Java 21 toolchain; compilation stays on Java 17); JaCoCo 0.8.11 → 0.8.16.
+    `io.ia.sdk.modl` stays 0.5.0 (latest).
+  - **Bundled (Gateway):** Gson 2.14.0 → 2.15.0 (pulls error_prone_annotations
+    2.48.0 → 2.50.0).
+  - **Bundled (Designer):** RSyntaxTextArea 4.0.1 → 4.0.2, AutoComplete 3.3.3 → 4.0.0,
+    RSTAUI 3.3.2 → 4.0.0. AutoComplete 4 replaced `setShowDescWindow(true)` with
+    `setDescWindowVisibility(DescWindowVisibility.ALWAYS)`.
+  - **Test:** Mockito 5.23.0 → 5.24.0, Awaitility 4.2.2 → 4.3.0, slf4j-simple
+    2.0.18 → 2.0.20.
+  - **Bundled Python wheels (cp311):** jedi 0.19.2 → 0.20.1, parso 0.8.5 → 0.8.7,
+    requests 2.32.5 → 2.34.2, urllib3 2.5.0 → 2.8.0, certifi 2025.10.5 → 2026.11.20,
+    charset-normalizer 3.4.4 → 3.5.3, idna 3.11 → 3.20, numpy 2.3.4 → 2.4.6,
+    pandas 2.3.3 → 3.1.1, matplotlib 3.10.7 → 3.11.2, python-dateutil 2.9.0.post0 →
+    4.0.0, pytz 2025.2 → 2026.6, tzdata 2025.2 → 2026.6, fonttools 4.60.1 → 4.68.0,
+    kiwisolver 1.4.9 → 1.5.1, packaging 25.0 → 26.4, pillow 12.0.0 → 13.0.0,
+    pyparsing 3.2.5 → 3.3.3. numpy (2.5.x) and contourpy (1.4.x) latest releases
+    need Python ≥ 3.12, so they stay on the newest cp311 builds (2.4.6, 1.3.3).
+  - **Web UI:** ESLint 9 → 10, @eslint/js 9 → 10, eslint-plugin-react-hooks 5 → 7,
+    eslint-plugin-react-refresh 0.4 → 0.5, globals 16 → 17, TypeScript 5.9 → 6.0,
+    webpack-cli 5 → 7, jsdom 24 → 31, @testing-library/react 14 → 16 (+
+    @testing-library/dom 10), @testing-library/jest-dom 6 → 8, lucide-react 0.575 →
+    1.79, rimraf 6.1.3 → 6.1.4, plus minor/patch updates. React stays on 18.3.1 (the
+    Gateway's SystemJS loader needs React's UMD build, removed in 19).
+  - CI Node 20 → 22 (Vitest 5 and jest-dom 8 require it).
+  - eslint-plugin-jsx-a11y 6.10.2 (latest) does not yet declare ESLint 10 as a peer; an
+    npm `overrides` entry scoped to that plugin points its peer at the root ESLint, and
+    its rules run as before. react-hooks 7's new React Compiler rules
+    (`set-state-in-effect`, `immutability`, `preserve-manual-memoization`) report as
+    warnings, not errors.
+### Fixed
+- Dependabot: `minimatch` < 11.0.1 (via rimraf → glob and typescript-estree) and the
+  `glob` 9.0.0–14.0.1 advisory are cleared; `npm audit` reports 0 vulnerabilities.
+- The Windows bundle shipped a manylinux `charset_normalizer` wheel; it now ships the
+  `win_amd64` one.
+- `:gateway:npmInstall` declared its inputs relative to `gateway/`, so a clean
+  checkout failed input validation unless `npm ci` had been run first.
+
 ## [4.6.4] - 2026-09-27
 ### Fixed
 - Installing Python 3.13 no longer fails: `PythonDistributionManager`'s tar-extraction

@@ -1,6 +1,6 @@
 [versions]
 ignition = "8.3.0"
-gson = "2.14.0"
+gson = "2.15.0"
 jakarta-servlet = "6.0.0"
 # slf4j-api: pinned to what the Designer scope's classpath actually bundles (the bare
 # slf4j-api-2.0.12.jar in lib/core/common/ — lib/core/designer/ has no slf4j-api jar of
@@ -12,16 +12,16 @@ jakarta-servlet = "6.0.0"
 slf4j-designer-api = "2.0.12"
 # slf4j (test/shipped-only uses, e.g. slf4j-simple as a standalone test harness backend):
 # free to track latest stable, unrelated to the compileOnly pin above.
-slf4j = "2.0.18"
+slf4j = "2.0.20"
 commons-compress = "1.28.0"
 junit-jupiter = "5.14.4"
 junit-platform-launcher = "1.14.4"
-mockito = "5.23.0"
+mockito = "5.24.0"
 assertj = "3.27.7"
-awaitility = "4.2.2"
-rsyntaxtextarea = "4.0.1"
-autocomplete = "3.3.3"
-rstaui = "3.3.2"
+awaitility = "4.3.0"
+rsyntaxtextarea = "4.0.2"
+autocomplete = "4.0.0"
+rstaui = "4.0.0"
 # flatlaf REMOVED 30/07/2026 — dead dependency (zero usage anywhere in the module; its
 # only consumer, FlatLafScope, was deleted in v4.3.2/v4.3.3). See designer/build.gradle.kts.
 

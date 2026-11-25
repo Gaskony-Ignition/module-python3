@@ -73,9 +73,10 @@ dependencies {
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.params)
     testRuntimeOnly(libs.junit.jupiter.engine)
-    // Explicit launcher pin: Gradle 8.10.2's own bundled junit-platform-launcher is older
-    // than junit-platform-engine 1.14.x (pulled in by junit-jupiter 5.14.4) and fails
-    // discovery with "OutputDirectoryCreator not available" when the two are unaligned.
+    // Explicit launcher pin: Gradle 9 no longer puts a junit-platform-launcher on the
+    // test runtime classpath for us, and the launcher must stay aligned with
+    // junit-platform-engine 1.14.x (pulled in by junit-jupiter 5.14.x) or discovery fails
+    // with "OutputDirectoryCreator not available".
     testRuntimeOnly(libs.junit.platform.launcher)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.junit.jupiter)

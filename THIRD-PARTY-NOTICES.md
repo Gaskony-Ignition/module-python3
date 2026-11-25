@@ -22,9 +22,9 @@ modifies the Apache-2.0 licence that governs this module's own source code.
 | packaging | Apache-2.0 OR BSD-2-Clause |
 | pandas | BSD-3-Clause |
 | parso | MIT |
-| pillow | HPND (Historical Permission Notice and Disclaimer) |
+| pillow | MIT-CMU (HPND variant) |
 | pyparsing | MIT |
-| python-dateutil | Apache-2.0 AND BSD-3-Clause |
+| python-dateutil | BSD-3-Clause |
 | pytz | MIT |
 | requests | Apache-2.0 |
 | six | MIT |

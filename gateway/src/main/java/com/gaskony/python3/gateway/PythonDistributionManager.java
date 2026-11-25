@@ -1115,10 +1115,8 @@ public class PythonDistributionManager {
 
         try (InputStream in = new BufferedInputStream(Files.newInputStream(path));
              DigestInputStream dis = new DigestInputStream(in, digest)) {
-            byte[] buf = new byte[8192];
-            while (dis.read(buf) != -1) {
-                // Just consume — DigestInputStream updates the digest.
-            }
+            // Just consume — DigestInputStream updates the digest on every read.
+            dis.transferTo(java.io.OutputStream.nullOutputStream());
         }
 
         byte[] actualBytes = digest.digest();

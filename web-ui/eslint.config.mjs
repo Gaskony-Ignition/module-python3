@@ -13,7 +13,7 @@ export default defineConfig([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
+      reactHooks.configs.flat['recommended-latest'],
       reactRefresh.configs.vite,
     ],
     plugins: {
@@ -30,6 +30,13 @@ export default defineConfig([
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       // Sprint 3 P10 (Apr 2026): a11y soft-migration. Warn-level only.
       'jsx-a11y/label-has-associated-control': ['warn', { assert: 'either' }],
+      // eslint-plugin-react-hooks 7 added React Compiler diagnostics to its
+      // recommended set. This UI is not compiled with React Compiler, and the
+      // existing effects predate the rules, so they report as warnings (same
+      // soft-migration approach as jsx-a11y above) rather than failing lint.
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/immutability': 'warn',
+      'react-hooks/preserve-manual-memoization': 'warn',
     },
   },
 ])

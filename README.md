@@ -4,7 +4,7 @@ Real Python 3 — `requests`, `pandas`, `numpy`, and the rest of PyPI — callab
 
 > **Not an Inductive Automation product, and not supported by Inductive Automation.** Independent work, largely built with AI tools and tested for one purpose on a limited subset of gateway versions and platforms. Take the ideas; fork and review it before it goes near production. Feedback is welcome in Issues; improvements are made where possible, but no support is guaranteed. [NOTICE.md](NOTICE.md) says more.
 
-![Version](https://img.shields.io/badge/version-4.6.4-blue.svg)
+![Version](https://img.shields.io/badge/version-4.6.5-blue.svg)
 [![Ignition](https://img.shields.io/badge/Ignition-8.3+-red.svg)](https://inductiveautomation.com/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
@@ -95,7 +95,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full release history.
 
 ```bash
 ./gradlew clean build --no-daemon
-# Install build/Python3-4.6.4.modl via Gateway > Config > System > Modules
+# Install build/Python3-4.6.5.modl via Gateway > Config > System > Modules
 ```
 
 Then, from any Jython scope (Script Console, a tag event, a Perspective binding):
