@@ -29,6 +29,10 @@ All notable changes to the Python 3 Integration module for Ignition 8.3+.
     kiwisolver 1.4.9 → 1.5.1, packaging 25.0 → 26.4, pillow 12.0.0 → 13.0.0,
     pyparsing 3.2.5 → 3.3.3. numpy (2.5.x) and contourpy (1.4.x) latest releases
     need Python ≥ 3.12, so they stay on the newest cp311 builds (2.4.6, 1.3.3).
+    **pandas 3 changes script behaviour**: Linux gateways already got pandas 3 from
+    PyPI; Windows gateways get it when the `datascience` bundle is next installed.
+    See [Known issues](docs/KNOWN_ISSUES.md#scripts-written-for-pandas-2) for what to
+    change in existing scripts.
   - **Web UI:** ESLint 9 → 10, @eslint/js 9 → 10, eslint-plugin-react-hooks 5 → 7,
     eslint-plugin-react-refresh 0.4 → 0.5, globals 16 → 17, TypeScript 5.9 → 6.0,
     webpack-cli 5 → 7, jsdom 24 → 31, @testing-library/react 14 → 16 (+

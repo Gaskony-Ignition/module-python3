@@ -1,5 +1,27 @@
 # Known issues
 
+### Scripts written for pandas 2
+
+The `datascience` bundle installs pandas 3 (3.1.1 since 4.6.5; Linux gateways
+have pulled pandas 3 from PyPI since its release). Installed packages are kept
+across module upgrades, so a gateway changes only when the bundle is installed
+again. These pandas 2 patterns behave differently, checked on a gateway against
+pandas 2.3.3:
+
+| Pandas 2 script | Under pandas 3 | Change it to |
+| --- | --- | --- |
+| `resample("H")`, `freq="H"`, `"30T"`, `"S"` | `ValueError: Invalid frequency` | `"h"`, `"30min"`, `"s"` |
+| `resample("M")` (month end) | `ValueError` | `"ME"` (also `"QE"`, `"YE"`) |
+| `df["col"][0] = x` | Silently does nothing (copy-on-write) | `df.loc[0, "col"] = x` |
+| `df["col"].fillna(0, inplace=True)` | Silently does nothing | `df["col"] = df["col"].fillna(0)` |
+| Writing to a column you pulled out (`s = df["col"]; s.iloc[0] = x`) | `df` is unchanged | Write through `df.loc` / `df.iloc` |
+| `df["tag"].dtype == object` for text | `False`; text columns are dtype `str` | `pd.api.types.is_string_dtype(...)` |
+| Missing text value is `None` | It is `NaN`, so a result shows `NaN`, not null | `df.astype(object).where(df.notna(), None)` before returning |
+| `datetime64[ns]` assumed | New datetimes are `datetime64[us]` | Don't hard-code the unit |
+
+Group-bys, rolling windows, pivots, merges, `concat`, `describe`, CSV/JSON
+round trips, `to_dict`, string methods and matplotlib output behave the same.
+
 ### Execution counters on `GET /api/v1/metrics` are frozen at 0
 
 Feeds the Dashboard's "Execution Metrics" card and the Diagnostics page's
