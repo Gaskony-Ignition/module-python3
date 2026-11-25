@@ -233,7 +233,8 @@ public class Python3ProcessPool {
 
             // Record successful execution metrics (v2.14.0 Phase 2 Week 3-4)
             long responseTime = System.currentTimeMillis() - startTime;
-            metricsCollector.recordExecution(true, responseTime);
+            // A Python exception is a failed script, not a pool fault: count it, but leave the breaker alone.
+            metricsCollector.recordExecution(result.isSuccess(), responseTime);
             circuitBreaker.recordSuccess();
 
             // Check for slow execution warnings
@@ -294,7 +295,8 @@ public class Python3ProcessPool {
 
             // Record successful execution metrics (v2.14.0 Phase 2 Week 3-4)
             long responseTime = System.currentTimeMillis() - startTime;
-            metricsCollector.recordExecution(true, responseTime);
+            // A Python exception is a failed script, not a pool fault: count it, but leave the breaker alone.
+            metricsCollector.recordExecution(result.isSuccess(), responseTime);
             circuitBreaker.recordSuccess();
 
             return result;
@@ -357,7 +359,8 @@ public class Python3ProcessPool {
 
             // Record successful execution metrics (v2.14.0 Phase 2 Week 3-4)
             long responseTime = System.currentTimeMillis() - startTime;
-            metricsCollector.recordExecution(true, responseTime);
+            // A Python exception is a failed script, not a pool fault: count it, but leave the breaker alone.
+            metricsCollector.recordExecution(result.isSuccess(), responseTime);
             circuitBreaker.recordSuccess();
 
             return result;

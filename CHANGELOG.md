@@ -32,6 +32,11 @@ All notable changes to the Python 3 Integration module for Ignition 8.3+.
 - **Web IDE and Designer console: a script that set `result` lost everything it printed.**
   `/exec` and the Designer RPC now return the printed output next to the result, and both
   consoles show it above the result. `system.python3.exec` still returns only the result.
+- **Execution metrics counted a script that raised as successful**, so the error rate never
+  moved; the pool counted round trips. A Python exception now counts as a failed execution (it
+  still does not trip the circuit breaker, which is for pool faults).
+- **`/metrics` min and max execution time were always 0**: they read counters nothing updated.
+  They now come from the pool's recent samples, like the average.
 - **Designer console:** the "Run a script to see output here" placeholder no longer stays under
   the first run's output, and a script with neither `result` nor output shows "(no output)"
   instead of a parse error.

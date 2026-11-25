@@ -204,12 +204,17 @@ public class Python3MetricsCollector {
         long totalTime;
         int poolSize;
         int active;
+        long minTime;
+        long maxTime;
         if (processPool != null) {
             MetricsCollector live = processPool.getMetricsCollector();
             total = live.getTotalExecutions();
             successful = live.getSuccessfulExecutions();
             failed = live.getFailedExecutions();
             totalTime = live.getAverageResponseTime() * total;
+            // Over the collector's recent-sample window, like the average.
+            minTime = live.getResponseTimePercentile(0.0);
+            maxTime = live.getResponseTimePercentile(1.0);
             Python3ProcessPool.PoolStats ps = processPool.getStats();
             poolSize = ps.totalSize;
             active = ps.inUse;
@@ -220,6 +225,8 @@ public class Python3MetricsCollector {
             totalTime = totalExecutionTime.get();
             poolSize = currentPoolSize.get();
             active = activeExecutions.get();
+            minTime = minExecutionTime.get() == Long.MAX_VALUE ? 0 : minExecutionTime.get();
+            maxTime = maxExecutionTime.get();
         }
 
         metrics.put("total_executions", total);
@@ -230,8 +237,8 @@ public class Python3MetricsCollector {
         // Timing metrics
         metrics.put("total_execution_time_ms", totalTime);
         metrics.put("average_execution_time_ms", total > 0 ? totalTime / total : 0);
-        metrics.put("min_execution_time_ms", minExecutionTime.get() == Long.MAX_VALUE ? 0 : minExecutionTime.get());
-        metrics.put("max_execution_time_ms", maxExecutionTime.get());
+        metrics.put("min_execution_time_ms", minTime);
+        metrics.put("max_execution_time_ms", maxTime);
 
         // Pool metrics
         metrics.put("pool_size", poolSize);

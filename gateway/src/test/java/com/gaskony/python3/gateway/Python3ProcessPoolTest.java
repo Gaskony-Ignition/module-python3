@@ -381,4 +381,17 @@ public class Python3ProcessPoolTest {
 
         logger.info("✓ Multiple cycles test passed ({} cycles)", CYCLES);
     }
+
+    /** A script that raises was counted as a successful execution, so the error rate never moved. */
+    @Test
+    public void testScriptErrorCountsAsFailedExecution() throws Exception {
+        pool = new Python3ProcessPool(TEST_PYTHON_PATH, SMALL_POOL_SIZE);
+
+        pool.execute("result = 1", java.util.Collections.emptyMap(), "ADMIN");
+        Python3Result failed = pool.execute("raise ValueError('bad reading')", java.util.Collections.emptyMap(), "ADMIN");
+
+        assertFalse(failed.isSuccess());
+        assertEquals(2, pool.getMetricsCollector().getTotalExecutions());
+        assertEquals(1, pool.getMetricsCollector().getFailedExecutions());
+    }
 }

@@ -97,4 +97,21 @@ class Python3MetricsCollectorLiveWiringTest {
         assertThat(m.get("pool_size")).isEqualTo(3);
         assertThat(m.get("active_executions")).isEqualTo(1);
     }
+
+    @Test
+    void metricsEndpointTimesComeFromTheLivePool() {
+        // max_execution_time_ms read a counter nothing updated, so it always said 0.
+        MetricsCollector live = new MetricsCollector();
+        live.recordExecution(true, 12);
+        live.recordExecution(true, 95);
+        live.recordExecution(true, 4);
+
+        Python3MetricsCollector collector = new Python3MetricsCollector();
+        collector.setProcessPool(poolWith(live, new Python3ProcessPool.PoolStats(3, 3, 0, 3)));
+
+        Map<String, Object> m = collector.getMetrics();
+
+        assertThat(m.get("min_execution_time_ms")).isEqualTo(4L);
+        assertThat(m.get("max_execution_time_ms")).isEqualTo(95L);
+    }
 }
