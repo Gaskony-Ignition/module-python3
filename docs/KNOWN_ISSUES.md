@@ -31,13 +31,6 @@ an authorisation bypass — the role gates are separate code and still enforce
 — but per-user attribution is unavailable from the audit trail alone. See
 [SECURITY.md](../SECURITY.md).
 
-### Script Console run time always reads 0 ms
-
-The Designer Script Console's run header says "completed in 0ms" whatever the
-script took. Neither `/api/v1/exec` nor the Designer RPC sends an execution
-time, so the console falls back to 0. The result and printed output are
-unaffected; the pool's timings are in Diagnostics.
-
 ### Autocomplete fails silently when `jedi` is missing
 
 If a Python distribution's venv has no `jedi` installed,

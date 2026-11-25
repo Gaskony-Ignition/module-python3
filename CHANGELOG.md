@@ -7,6 +7,12 @@ All notable changes to the Python 3 Integration module for Ignition 8.3+.
 
 ---
 
+## [4.6.7] - 2026-11-26
+### Fixed
+- **Designer Script Console: run time always read "completed in 0ms".** Neither the Designer RPC
+  nor `/api/v1/exec` sent an execution time; both now send `executionTimeMs`, the wall time of
+  the run on the gateway.
+
 ## [4.6.6] - 2026-11-25
 ### Fixed
 - **Designer: the Python 3 Script Console would not open in 4.6.5** (`NoSuchMethodError:

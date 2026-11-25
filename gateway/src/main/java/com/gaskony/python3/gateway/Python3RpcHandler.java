@@ -155,6 +155,7 @@ public class Python3RpcHandler implements Python3Rpc {
         Python3RestEndpoints.auditLog("PYTHON_EXEC", code);
 
         JsonObject response = new JsonObject();
+        long start = System.nanoTime();
         try {
             Python3ScriptModule sm = hook.getScriptModule();
             // Per-execution structured audit is emitted by Python3ScriptModule.execTrusted()
@@ -169,6 +170,7 @@ public class Python3RpcHandler implements Python3Rpc {
             response.addProperty("success", false);
             response.addProperty("error", e.getMessage());
         }
+        response.addProperty(JsonFields.EXECUTION_TIME_MS, (System.nanoTime() - start) / 1_000_000L);
         return response.toString();
     }
 

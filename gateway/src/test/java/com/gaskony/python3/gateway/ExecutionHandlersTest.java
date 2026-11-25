@@ -93,8 +93,10 @@ class ExecutionHandlersTest {
         when(httpReq.getReader()).thenReturn(
             new java.io.BufferedReader(new java.io.StringReader(body))
         );
-        when(scriptModule.execDetailed(any(), any(), any(), any()))
-            .thenReturn(new Python3Result(true, 4, null, null, "checking\n"));
+        when(scriptModule.execDetailed(any(), any(), any(), any())).thenAnswer(inv -> {
+            Thread.sleep(50);
+            return new Python3Result(true, 4, null, null, "checking\n");
+        });
 
         JsonObject result = handlers.handleExec(req, res);
 
@@ -102,6 +104,8 @@ class ExecutionHandlersTest {
         assertThat(result.get("success").getAsBoolean()).isTrue();
         assertThat(result.get("result").getAsString()).isEqualTo("4");
         assertThat(result.get("output").getAsString()).isEqualTo("checking\n");
+        // The Designer console's "completed in N ms" reads this; it was never sent.
+        assertThat(result.get("executionTimeMs").getAsLong()).isGreaterThanOrEqualTo(50L);
         verify(scriptModule).execDetailed(eq("result = 2 + 2"), any(), any(), any());
     }
 

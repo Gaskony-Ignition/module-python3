@@ -35,7 +35,7 @@ function Sidebar({ activeView, onNavigate, gatewayUrl }: SidebarProps) {
     return localStorage.getItem(STORAGE_KEY) === 'true'
   })
   // Fallback module version - ALWAYS UPDATE THIS WITH NEW RELEASES
-  const FALLBACK_MODULE_VERSION = '4.6.6'
+  const FALLBACK_MODULE_VERSION = '4.6.7'
 
   const [moduleVersion, setModuleVersion] = useState<string>(FALLBACK_MODULE_VERSION)
 

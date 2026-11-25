@@ -176,13 +176,18 @@ class Python3RpcHandlerTest {
 
     @Test
     void exec_withVersion_usesVersionedOverload() throws Exception {
-        when(scriptModule.execTrusted(eq("x=1"), anyMap(), eq("3.11"))).thenReturn(new Python3Result(true, "ok", null, null, "line 1\n"));
+        when(scriptModule.execTrusted(eq("x=1"), anyMap(), eq("3.11"))).thenAnswer(inv -> {
+            Thread.sleep(50);
+            return new Python3Result(true, "ok", null, null, "line 1\n");
+        });
 
         JsonObject json = parse(handler.exec("x=1", "{\"a\":1}", "3.11"));
 
         assertThat(json.get("success").getAsBoolean()).isTrue();
         assertThat(json.get("result").getAsString()).isEqualTo("ok");
         assertThat(json.get("output").getAsString()).isEqualTo("line 1\n");
+        // The Script Console's "completed in N ms" reads this; it was never sent.
+        assertThat(json.get("executionTimeMs").getAsLong()).isGreaterThanOrEqualTo(50L);
         verify(scriptModule).execTrusted(eq("x=1"), anyMap(), eq("3.11"));
     }
 

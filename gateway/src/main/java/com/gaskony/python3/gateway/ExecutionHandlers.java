@@ -238,12 +238,15 @@ class ExecutionHandlers {
 
             // Structured per-execution audit (user/IP/mode/codeHash/outcome) is emitted by
             // Python3ScriptModule.exec() via Python3AuditLogger — see that class's finally block.
+            long start = System.nanoTime();
             Python3Result result = ctx.scriptModule.execDetailed(code, variables, securityMode.getValue(), pythonVersion);
+            long elapsedMs = (System.nanoTime() - start) / 1_000_000L;
 
             JsonObject response = new JsonObject();
             response.addProperty("success", true);
             response.addProperty("result", result.getResult() != null ? result.getResult().toString() : null);
             response.addProperty(JsonFields.OUTPUT, result.printedOutput());
+            response.addProperty(JsonFields.EXECUTION_TIME_MS, elapsedMs);
             return response;
         });
     }
