@@ -56,12 +56,19 @@ function VersionsView({ gatewayUrl, showToast }: Props) {
 
       // Parse active/installed versions
       let activeVersions: string[] = []
+      // /distributions carries no install path; /versions has it per running version.
+      let detailsByVersion: Record<string, { path?: string; isDefault?: boolean }> = {}
+      let defaultVersion: string | undefined
       if (versionsRes.status === 'fulfilled' && versionsRes.value.ok) {
         const raw = await versionsRes.value.json()
         const data = raw.data || raw
         activeVersions = Array.isArray(data)
           ? (data as string[])
           : (data.versions as string[]) || []
+        if (!Array.isArray(data)) {
+          detailsByVersion = data.details || {}
+          defaultVersion = data.default
+        }
       }
 
       // Parse pool stats to enrich pool size
@@ -94,8 +101,11 @@ function VersionsView({ gatewayUrl, showToast }: Props) {
           (poolByVersion['__single__'] !== undefined && i === 0
             ? poolByVersion['__single__']
             : undefined)
+        const detail = detailsByVersion[entry.version]
         return {
           ...entry,
+          path: entry.path ?? detail?.path,
+          isDefault: defaultVersion !== undefined ? entry.version === defaultVersion : entry.isDefault,
           status: isActive ? 'installed' : entry.status,
           poolSize: entry.status === 'installed' || isActive ? poolSize : undefined,
         }

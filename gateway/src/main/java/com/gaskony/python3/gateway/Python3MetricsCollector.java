@@ -195,10 +195,32 @@ public class Python3MetricsCollector {
     public Map<String, Object> getMetrics() {
         Map<String, Object> metrics = new HashMap<>();
 
-        // Execution metrics
-        long total = totalExecutions.get();
-        long successful = successfulExecutions.get();
-        long failed = failedExecutions.get();
+        // Execution metrics. As in getGatewayImpact(), the pool's MetricsCollector is the
+        // one every pool.execute() increments; this class's own counters never move, so
+        // they are only the fallback before the pool is wired.
+        long total;
+        long successful;
+        long failed;
+        long totalTime;
+        int poolSize;
+        int active;
+        if (processPool != null) {
+            MetricsCollector live = processPool.getMetricsCollector();
+            total = live.getTotalExecutions();
+            successful = live.getSuccessfulExecutions();
+            failed = live.getFailedExecutions();
+            totalTime = live.getAverageResponseTime() * total;
+            Python3ProcessPool.PoolStats ps = processPool.getStats();
+            poolSize = ps.totalSize;
+            active = ps.inUse;
+        } else {
+            total = totalExecutions.get();
+            successful = successfulExecutions.get();
+            failed = failedExecutions.get();
+            totalTime = totalExecutionTime.get();
+            poolSize = currentPoolSize.get();
+            active = activeExecutions.get();
+        }
 
         metrics.put("total_executions", total);
         metrics.put("successful_executions", successful);
@@ -206,17 +228,15 @@ public class Python3MetricsCollector {
         metrics.put("success_rate", total > 0 ? (double) successful / total * 100.0 : 100.0);
 
         // Timing metrics
-        long totalTime = totalExecutionTime.get();
         metrics.put("total_execution_time_ms", totalTime);
         metrics.put("average_execution_time_ms", total > 0 ? totalTime / total : 0);
         metrics.put("min_execution_time_ms", minExecutionTime.get() == Long.MAX_VALUE ? 0 : minExecutionTime.get());
         metrics.put("max_execution_time_ms", maxExecutionTime.get());
 
         // Pool metrics
-        metrics.put("pool_size", currentPoolSize.get());
-        metrics.put("active_executions", activeExecutions.get());
-        metrics.put("pool_utilization", currentPoolSize.get() > 0 ?
-            (double) activeExecutions.get() / currentPoolSize.get() * 100.0 : 0.0);
+        metrics.put("pool_size", poolSize);
+        metrics.put("active_executions", active);
+        metrics.put("pool_utilization", poolSize > 0 ? (double) active / poolSize * 100.0 : 0.0);
 
         int waitCount = poolWaitCount.get();
         metrics.put("pool_wait_count", waitCount);
@@ -234,8 +254,7 @@ public class Python3MetricsCollector {
 
         // Health score (0-100, based on success rate and pool availability)
         double successRate = total > 0 ? (double) successful / total * 100.0 : 100.0;
-        double poolAvailability = currentPoolSize.get() > 0 ?
-            (double) (currentPoolSize.get() - activeExecutions.get()) / currentPoolSize.get() * 100.0 : 100.0;
+        double poolAvailability = poolSize > 0 ? (double) (poolSize - active) / poolSize * 100.0 : 100.0;
         double healthScore = (successRate * 0.7) + (poolAvailability * 0.3);  // Weighted average
         metrics.put("health_score", Math.round(healthScore));
 

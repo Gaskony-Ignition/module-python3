@@ -22,20 +22,6 @@ pandas 2.3.3:
 Group-bys, rolling windows, pivots, merges, `concat`, `describe`, CSV/JSON
 round trips, `to_dict`, string methods and matplotlib output behave the same.
 
-### Execution counters on `GET /api/v1/metrics` are frozen at 0
-
-Feeds the Dashboard's "Execution Metrics" card and the Diagnostics page's
-"EXECUTION METRICS" panel. `Python3MetricsCollector.getMetrics()`
-(`gateway/src/main/java/com/gaskony/python3/gateway/Python3MetricsCollector.java`)
-reads its own `totalExecutions`/`successfulExecutions`/`failedExecutions`
-`AtomicLong` fields, and nothing in production code calls
-`recordExecution()`/`recordFailure()` on that object — it is disconnected from
-every execution path (REST, RPC, web UI), not merely gated by auth mode. The
-Process Pool's "Active" counter is live and does move; "Total Executions"
-does not. Fix: source counts from the process pool's own live
-`MetricsCollector` (`processPool.getMetricsCollector()`), the same pattern
-already used for `getGatewayImpact()`.
-
 ### Audit log never records caller identity
 
 `Python3SecurityUtils.getCurrentUser()`/`getSourceIP()` are unimplemented

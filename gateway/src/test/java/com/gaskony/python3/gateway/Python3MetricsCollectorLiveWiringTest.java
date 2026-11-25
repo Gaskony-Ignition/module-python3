@@ -73,4 +73,28 @@ class Python3MetricsCollectorLiveWiringTest {
         assertThat(((Number) impact.get("healthScore")).intValue()).isEqualTo(100);
         assertThat(((Number) impact.get("pool_utilization_percent")).doubleValue()).isZero();
     }
+
+    @Test
+    void metricsEndpointCountsComeFromTheLivePool() {
+        // GET /api/v1/metrics (the web dashboard's execution count) read this class's own
+        // counters and so always said 0, even after the pool had run code.
+        MetricsCollector live = new MetricsCollector();
+        for (int i = 0; i < 40; i++) {
+            live.recordExecution(true, 10);
+        }
+        live.recordExecution(false, 10);
+        live.recordExecution(false, 10);
+        Python3ProcessPool.PoolStats stats = new Python3ProcessPool.PoolStats(3, 2, 1, 3);
+
+        Python3MetricsCollector collector = new Python3MetricsCollector();
+        collector.setProcessPool(poolWith(live, stats));
+
+        Map<String, Object> m = collector.getMetrics();
+
+        assertThat(m.get("total_executions")).isEqualTo(42L);
+        assertThat(m.get("successful_executions")).isEqualTo(40L);
+        assertThat(m.get("failed_executions")).isEqualTo(2L);
+        assertThat(m.get("pool_size")).isEqualTo(3);
+        assertThat(m.get("active_executions")).isEqualTo(1);
+    }
 }

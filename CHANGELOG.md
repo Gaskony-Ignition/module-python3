@@ -7,6 +7,24 @@ All notable changes to the Python 3 Integration module for Ignition 8.3+.
 
 ---
 
+## [4.6.6] - 2026-11-25
+### Fixed
+- **Designer: the Python 3 Script Console would not open in 4.6.5** (`NoSuchMethodError:
+  AutoCompletion.setDescWindowVisibility`). The Designer ships its own RSyntaxTextArea 3.3.2,
+  AutoComplete 3.3.1 and RSTAUI 3.3.1 (`lib/core/designer`) and those load ahead of a module's
+  copies, so the 4.x jars 4.6.5 shipped were never used and the 4.x-only call failed. The module
+  now compiles against exactly the Designer's versions and no longer ships its own.
+- **Web UI: Delete and Rename of saved scripts did nothing.** The UI sent `DELETE` to
+  `/api/v1/scripts/delete/:name`, which the gateway has only accepted as `POST` since 3.6.5;
+  rename left the old script behind for the same reason.
+- **Web UI dashboard: Total Executions always read 0.** It read `totalExecutions` where
+  `/api/v1/metrics` sends `total_executions`, and that endpoint read counters nothing
+  increments; both now use the process pool's live counts (the same source the Designer's
+  Diagnostics moved to in 4.4.0).
+- **Web UI dashboard:** an unreachable gateway now shows the error message instead of an empty
+  "loaded" dashboard.
+- **Web UI Versions:** the install path is shown again; it comes from `/api/v1/versions`.
+
 ## [4.6.5] - 2026-11-25
 ### Changed
 - Dependencies upgraded to latest stable:

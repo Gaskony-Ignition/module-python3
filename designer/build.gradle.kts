@@ -38,23 +38,18 @@ dependencies {
     compileOnly(libs.slf4j.api)
     implementation(libs.slf4j.simple)  // For standalone test harness (free to track latest; see libs.versions.toml)
 
-    // RSyntaxTextArea family - Advanced code editor with syntax highlighting.
-    // 30/07/2026 audit finding: plain `implementation` is NOT bundled into the .modl by
-    // io.ia.sdk.modl 0.5.0 — only the `modlImplementation` configuration is collected
-    // (empirically confirmed: `./gradlew :designer:collectModlDependencies --info`
-    // resolved zero artifacts while these were still declared as `implementation`, and
-    // the built .modl/designer.jar contained no rsyntaxtextarea/autocomplete/rstaui
-    // classes at all). That meant our declared versions were fiction at runtime — the
-    // Designer process was actually loading the PLATFORM's older bundled copies
-    // (rsyntaxtextarea-3.3.2.jar, autocomplete-3.3.1.jar, rstaui-3.3.1.jar in
-    // lib/core/designer/), identical risk profile to an unpinned compileOnly dependency.
-    // Switched to `modlImplementation` so our own (newer) copies are what's actually
-    // shipped and loaded, matching the version bumps below. Verified by rebuilding and
-    // finding rsyntaxtextarea-4.0.1.jar/autocomplete-3.3.3.jar/rstaui-3.3.2.jar inside
-    // the built .modl.
-    modlImplementation(libs.rsyntaxtextarea)   // 30/07/2026: bumped 3.5.2 -> 4.0.1 (latest stable; requires Java 11+, satisfied by our Java 17 toolchain)
-    modlImplementation(libs.autocomplete)      // 30/07/2026: bumped 3.3.1 -> 3.3.3 (latest stable; 3.3.4 still does not exist for this artifact)
-    modlImplementation(libs.rstaui)            // 30/07/2026: bumped 3.3.1 -> 3.3.2 (latest stable; 3.3.4 still does not exist for this artifact)
+    // RSyntaxTextArea family (code editor, autocomplete, find/replace UI).
+    // The Designer ships its own copies in lib/core/designer (8.3.10: rsyntaxtextarea
+    // 3.3.2, autocomplete 3.3.1, rstaui 3.3.1) and they load ahead of anything this
+    // module bundles: on 25/11/2026 a 4.6.5 build that shipped autocomplete 4.0.0 and
+    // called its new setDescWindowVisibility() threw NoSuchMethodError opening the
+    // Script Console, because the class actually loaded was the platform's 3.3.1.
+    // So compile against exactly what the Designer runs and ship nothing; these
+    // versions follow Ignition's, not the library's latest release.
+    compileOnly(libs.rsyntaxtextarea)
+    compileOnly(libs.autocomplete)
+    compileOnly(libs.rstaui)
+    testImplementation(libs.rsyntaxtextarea)
 
     // FlatLaf dependency REMOVED 30/07/2026 (was `implementation(libs.flatlaf)` 3.4.1).
     // Same "plain implementation isn't bundled" gap as above applied here too, except the

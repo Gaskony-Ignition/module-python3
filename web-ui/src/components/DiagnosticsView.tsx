@@ -24,7 +24,7 @@ interface Props {
 }
 
 function DiagnosticsView({ gatewayUrl }: Props) {
-  const [health, setHealth] = useState<Record<string, unknown> | null>(null)
+  const [, setHealth] = useState<Record<string, unknown> | null>(null)
   const [poolStats, setPoolStats] = useState<Record<string, unknown> | null>(null)
   const [diagnostics, setDiagnostics] = useState<Record<string, unknown> | null>(null)
   const [metrics, setMetrics] = useState<Record<string, unknown> | null>(null)
@@ -169,12 +169,6 @@ function DiagnosticsView({ gatewayUrl }: Props) {
   }, [logEntries, logAutoScroll])
 
   // --- Health status ---
-  const overallStatus: string =
-    (health?.status as string) ||
-    (health?.overall as string) ||
-    (health?.healthy ? 'HEALTHY' : health?.healthy === false ? 'DOWN' : 'UNKNOWN')
-  const statusNorm = overallStatus.toUpperCase()
-
   // --- Pool stats normalization ---
   const normalizedPool = poolStats
     ? {

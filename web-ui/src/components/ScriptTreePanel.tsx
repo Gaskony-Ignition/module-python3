@@ -11,7 +11,7 @@ import {
   Edit2,
   FolderInput,
 } from 'lucide-react'
-import { apiPost, apiGet, apiDelete } from '../utils/api'
+import { apiPost, apiGet } from '../utils/api'
 
 interface ScriptEntry {
   name: string
@@ -115,7 +115,7 @@ function ScriptTreePanel({
       if (saveResult.success === false) {
         throw new Error(String(saveResult.error || saveResult.message || 'Save failed'))
       }
-      await apiDelete(`/api/v1/scripts/delete/${encodeURIComponent(oldName)}`)
+      await apiPost(`/api/v1/scripts/delete/${encodeURIComponent(oldName)}`)
       cancelRename(oldName)
       onRenameScript(oldName, newName)
       showToast('Script renamed successfully', 'success')

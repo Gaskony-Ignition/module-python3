@@ -19,9 +19,9 @@ junit-platform-launcher = "1.14.4"
 mockito = "5.24.0"
 assertj = "3.27.7"
 awaitility = "4.3.0"
-rsyntaxtextarea = "4.0.2"
-autocomplete = "4.0.0"
-rstaui = "4.0.0"
+rsyntaxtextarea = "3.3.2"  # = Ignition 8.3 Designer lib/core/designer; see designer/build.gradle.kts
+autocomplete = "3.3.1"  # = Ignition 8.3 Designer lib/core/designer
+rstaui = "3.3.1"  # = Ignition 8.3 Designer lib/core/designer
 # flatlaf REMOVED 30/07/2026 — dead dependency (zero usage anywhere in the module; its
 # only consumer, FlatLafScope, was deleted in v4.3.2/v4.3.3). See designer/build.gradle.kts.
 

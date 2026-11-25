@@ -3,7 +3,7 @@ import ScriptTreePanel from './ScriptTreePanel'
 import ScriptDetailPanel from './ScriptDetailPanel'
 import ImportExportModal from './ImportExportModal'
 import { Plus, FolderPlus, Upload, RefreshCw, ScrollText } from 'lucide-react'
-import { apiPost, apiDelete } from '../utils/api'
+import { apiPost } from '../utils/api'
 import PageHeader from './PageHeader'
 import './ScriptsView.css'
 
@@ -94,7 +94,7 @@ function ScriptsView({ gatewayUrl, showToast }: Props) {
 
   const handleDeleteScript = async (name: string) => {
     try {
-      await apiDelete(`/api/v1/scripts/delete/${encodeURIComponent(name)}`)
+      await apiPost(`/api/v1/scripts/delete/${encodeURIComponent(name)}`)
       if (selectedScript === name) {
         setSelectedScript(null)
       }

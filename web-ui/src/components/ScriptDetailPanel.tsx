@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Edit2, Save, Download, Copy } from 'lucide-react'
-import { apiGet, apiPost, apiDelete } from '../utils/api'
+import { apiGet, apiPost } from '../utils/api'
 
 interface ScriptDetailPanelProps {
   gatewayUrl: string
@@ -98,7 +98,7 @@ function ScriptDetailPanel({
 
       // If name changed, delete the old script entry only after confirmed save
       if (nameChanged) {
-        await apiDelete(`/api/v1/scripts/delete/${encodeURIComponent(script.name)}`)
+        await apiPost(`/api/v1/scripts/delete/${encodeURIComponent(script.name)}`)
       }
 
       setScript(prev =>

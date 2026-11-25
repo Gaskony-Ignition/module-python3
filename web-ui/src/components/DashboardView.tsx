@@ -42,7 +42,11 @@ interface VersionsData {
   count?: number
 }
 
+// GET /api/v1/metrics answers in snake_case (Python3MetricsCollector.getMetrics()).
 interface MetricsData {
+  total_executions?: number
+  failed_executions?: number
+  average_execution_time_ms?: number
   totalExecutions?: number
   successfulExecutions?: number
   failedExecutions?: number
@@ -86,7 +90,8 @@ function DashboardView({ gatewayUrl, onNavigate }: Props) {
     if (versionsRaw) setVersions(versionsRaw as VersionsData)
     if (metricsRaw) setMetrics(metricsRaw as MetricsData)
 
-    setLoadState('loaded')
+    // Every request failed: the gateway (or this module) is unreachable, not "healthy with no data".
+    setLoadState(results.every(r => r.status === 'rejected') ? 'error' : 'loaded')
     setLastRefreshed(new Date())
     if (isManual) setRefreshing(false)
   }, [gatewayUrl])
@@ -144,9 +149,11 @@ function DashboardView({ gatewayUrl, onNavigate }: Props) {
   })()
 
   // ---- Metrics card ----
-  const totalExec = metrics?.totalExecutions ?? 0
-  const avgLatency = metrics?.averageLatencyMs ?? metrics?.avgLatency ?? null
-  const errorRate = metrics?.errorRate ?? metrics?.errorsPercentage ?? null
+  const totalExec = metrics?.total_executions ?? metrics?.totalExecutions ?? 0
+  const avgLatency = metrics?.average_execution_time_ms ?? metrics?.averageLatencyMs ?? metrics?.avgLatency ?? null
+  const failedExec = metrics?.failed_executions ?? metrics?.failedExecutions
+  const errorRate = metrics?.errorRate ?? metrics?.errorsPercentage
+    ?? (failedExec !== undefined && totalExec > 0 ? (failedExec / totalExec) * 100 : null)
 
   const isLoading = loadState === 'loading'
 
