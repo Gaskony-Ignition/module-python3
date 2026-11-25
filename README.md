@@ -33,29 +33,29 @@ release decision.
 ![The Gateway Web UI IDE running a pandas/numpy script over 30 days of synthetic production-line data, with its returned summary dict visible in the Output pane](docs/images/ide-script-editor.png)
 *The browser-based IDE: real code, run against a real warm Python 3 process, with the script's own returned result shown inline. No Designer required.*
 
-![Script library tree showing the Demos folder's five scripts, with ProductionStats selected and its full source and description visible](docs/images/script-library.png)
+![Script library tree with a Demos folder of five scripts and a Reports folder of two, ProductionStats selected and its full source and description visible](docs/images/script-library.png)
 *Scripts are organised into folders and are real files on disk — select one to see its source, description and last-modified time.*
 
-![Diagnostics view showing process pool utilisation and a live module log with real recent activity — package installs and session audits](docs/images/diagnostics-view.png)
+![Diagnostics view showing process pool utilisation and a live module log of real recent calls, each audit entry carrying its mode, code hash and duration](docs/images/diagnostics-view.png)
 *Diagnostics: pool utilisation and the module's own log stream — including the per-call audit trail (mode, code hash, duration) — filterable by level.*
 
-![Python Versions view listing Python 3.9 through 3.13, with 3.11, 3.12 and 3.13 shown as installed and the rest available to install](docs/images/python-versions-view.png)
+![Python Versions view listing Python 3.9 through 3.13, with 3.11 (the default, showing its install path), 3.12 and 3.13 installed and the rest available to install](docs/images/python-versions-view.png)
 *Multiple Python versions can be installed side by side; scripts pick which one they run against.*
 
-![Gateway dashboard showing module health as Healthy, process pool size and installed Python version count](docs/images/gateway-dashboard.png)
-*The landing dashboard: module health, process pool and installed versions at a glance.*
+![Gateway dashboard showing module health as Healthy, a pool of three processes, the running Python version and real execution counts — 55 runs at a 23 ms average with no errors](docs/images/gateway-dashboard.png)
+*The landing dashboard: module health, process pool, the running Python version and execution counts at a glance.*
 
 ![Designer Script Console showing the ProductionStats demo script with a completed run and result](docs/images/designer-script-editor.png)
 *The Designer-scope Script Console: the `ProductionStats` demo script,
 syntax-highlighted, run against the same warm process pool as the Web UI — the
 run completed and returned its result dict, shown in the Output pane.*
 
-![Project Browser showing the module's own "Python 3 Scripts" tree node with its Demos folder expanded, and the module's own right-click context menu open over it showing New Script, New Folder, Refresh and Open Script Console — the menu covers several of the script names beneath it](docs/images/designer-project-browser-tree.png)
+![Project Browser showing the module's own "Python 3 Scripts" tree node with its Demos and Reports folders expanded, and the module's own right-click context menu open over it showing New Script, New Folder, Refresh and Open Script Console — the menu covers several of the script names beneath it](docs/images/designer-project-browser-tree.png)
 *Python 3 Scripts is a first-class node in the Designer's Project Browser, not
 a bolted-on window — it gets its own tree icons and its own right-click menu
 alongside the built-in nodes like Perspective and Transaction Groups.*
 
-![The Designer's Tools menu with a "Python 3 Script Console v4.6.2" entry added above the built-in Console and Script Console items](docs/images/designer-tools-menu.png)
+![The Designer's Tools menu with a "Python 3 Script Console v4.6.6" entry added above the built-in Console and Script Console items](docs/images/designer-tools-menu.png)
 *The module registers itself in the Designer's own Tools menu, versioned
 alongside the rest of the built-in tools.*
 
@@ -64,7 +64,7 @@ alongside the rest of the built-in tools.*
 keyword list — it resolves real members of whatever's actually imported,
 with descriptions, in a proper editor popup (Ctrl+Space).*
 
-![The Designer's Diagnostics dialog showing Performance Diagnostics (99 executions, 100% success rate, RAM/CPU, health score 100) and a live, filterable Gateway Logs stream](docs/images/designer-diagnostics.png)
+![The Designer's Diagnostics dialog showing Performance Diagnostics (64 executions, 100% success rate, RAM/CPU, health score 100) and a live, filterable Gateway Logs stream](docs/images/designer-diagnostics.png)
 *A read-only Diagnostics view reachable from the Designer: pool health and
 performance stats plus a live tail of the Gateway's own log, filterable by
 level — no need to leave the Designer to see what the module is doing.*
